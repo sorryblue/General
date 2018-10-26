@@ -10,20 +10,107 @@
             margin: 0;
             padding: 0;
         }
+        #scres{
+            width: 303px;
+            border: 1px solid red;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+        #scres .tab li{
+            list-style: none;
+            float: left;
+            width: 100px;
+            text-align: center;
+            border-right: 1px solid red;
+            border-bottom: 1px solid red;
+            cursor: pointer;
+        }
+        #scres .tab li:last-child{
+            border-right: 0;
+        }
+        #scres .tab .active{
+            background: rgb(8, 8, 83);
+            color: white;
+        }
+        #scres .rom{
+            height: 303px;
+        }
+        #scres .rom div{
+            height: 303px;
+            text-align: center;
+            line-height: 303px;
+            display: none;
+        }
+        #scres .rom .active{
+            display: block;
+        }
+        #box{
+            text-align: center;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
     <div id="scres">
         <ul class="tab">
-            <li>电影</li>
+            <li class="active">电影</li>
             <li>读书</li>
             <li>运动</li>
         </ul>
         <div class="rom">
-            <div>电影</div>
+            <div class="active">电影</div>
             <div>读书</div>
             <div>运动</div>
         </div>
     </div>
+    <div id="box">
+        <p></p>
+        <button class="button">点击</button>
+    </div>
+    <script>
+        const scres = document.getElementById('scres');
+        const tab = scres.getElementsByClassName('tab')[0];
+        const lis = tab.getElementsByTagName('li');
+        const roms = scres.getElementsByClassName('rom')[0];
+        const rom = roms.getElementsByTagName('div');
+        const boxs = document.getElementById('box');
+        const butt = boxs.getElementsByClassName('button')[0];
+        function change(n){
+            for (var i = 0; i < lis.length; i++) {
+            lis[i].className = '';
+            rom[i].className = '';
+            }
+            lis[n].className = 'active';
+            rom[n].className = 'active';
+        }
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].index = i;
+            lis[i].onclick = function (){
+                change(this.index);
+            }
+        }
+        butt.onclick = function () {
+            setTimeout(function (){alert(new Date)},3000);
+        } 
+        // butt.onclick = function () {
+        //     alert(new Date);
+        // }
+        let int = setInterval('clock()',1000);
+        let col = setInterval('colors()',1000);
+        let htmlP = document.createElement('p');
+        boxs.appendChild(htmlP);
+        function clock(){
+            boxs.lastElementChild.innerHTML = new Date;
+        }
+        function colors(){
+            boxs.style.color = f();
+        }
+        function f(){
+            let colorBox = ['red','blue','green','black','pink','#000','#5f0303ce'];
+            let i = Math.floor(Math.random()*8);
+            let index = i;
+            return colorBox[index];
+        }
+    </script>
 </body>
-</html>
+</html>;
