@@ -102,9 +102,11 @@
         function clock(){
             boxs.lastElementChild.innerHTML = new Date;
         }
+        clock(); //先执行一遍，否则会等一秒才出现
         function colors(){
             boxs.style.color = f();
         }
+        colors();
         function f(){
             let colorBox = ['red','blue','green','black','pink','#000','#5f0303ce'];
             let i = Math.floor(Math.random()*8);

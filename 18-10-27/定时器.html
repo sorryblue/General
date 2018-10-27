@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="b1">Start</button>
+    <button id="b2">Stop</button>
+    <p id="p"></p>
+    <p id="tm"></p>
+    <script>
+        let arr = [1,2,3,4,5,6,7,8,9];
+        let timer = null,num = 0,n = 0;
+        b1.onclick = function () {
+            timer = setInterval (function () {
+                p.innerHTML = arr[num];
+                num++;
+                // n++;
+                num %= arr.length;
+                // if (n == 100) {
+                //     clearInterval(timer);
+                //     p.innerHTML = arr[6];
+                //     n = 0;
+                // }
+            },60);
+        }
+        b2.onclick = function () {
+            clearInterval(timer);
+            p.innerHTML = arr[5];
+        }
+        let newDate = new Date('2018 10 28 16:00:00');
+        let timers = setInterval(dd(),1000);
+        function dd() {
+            let nowDate = new Date; //（现在的时间）
+            let t = (newDate - nowDate) / 1000;
+            //86400 3600 60 
+            let d = Math.floor(t/86400);
+            t %= 86400;
+            let h = Math.floor(t/3600);
+            t %= 3600;
+            let m = Math.floor(t/60);
+            t %= 60;
+            tm.innerHTML = d + '天' + h + '时' + m + '分' + Math.floor(t) + '秒';
+        }
+        dd();
+    </script>
+</body>
+</html>
