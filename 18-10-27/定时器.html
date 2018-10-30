@@ -32,7 +32,7 @@
             p.innerHTML = arr[5];
         }
         let newDate = new Date('2018 10 28 16:00:00');
-        let timers = setInterval(dd(),1000);
+        let timers = setInterval(dd,1000);
         function dd() {
             let nowDate = new Date; //（现在的时间）
             let t = (newDate - nowDate) / 1000;
