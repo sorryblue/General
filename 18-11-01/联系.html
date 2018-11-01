@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #box{
+        width: 200px;
+    }
+    #box button{
+        width: 30%;
+        box-sizing: border-box;
+    }
+    #box .active{
+        background: rgb(168, 101, 33);
+    }
+    #box div{
+        width: 200px;
+        height: 100px;
+        display: none;
+        border: 1px solid #000;
+    }
+    #box .show{
+        display: block;
+    }
+</style>
+<body>
+    <div id="box">
+        <button class="active">按钮一</button>
+        <button>按钮二</button>
+        <button>按钮三</button>
+        <div class="show">111111111</div>
+        <div>22222222</div>
+        <div>33333333</div>
+    </div>
+    <script>
+        function Tab(id) {
+            this.box = document.getElementById(id);
+            this.btns = this.box.getElementsByTagName('button');
+            this.divs = this.box.getElementsByTagName('div');
+        }
+        Tab.prototype.events = function (evName) {
+            let that = this;
+            for (let i = 0; i < this.btns.length; i++) {
+                this.btns[i][evName] = function(){
+                    that.change(i);
+                }
+            }
+        }
+        Tab.prototype.change = function(index){
+            for (let i = 0; i < this.btns.length; i++) {
+                this.btns[i].className = this.divs[i].className = '';
+            }
+            this.btns[index].className = 'active';
+            this.divs[index].className = 'show';
+        }
+        let t = new Tab('box');
+        t.events('onclick');
+    </script>
+</body>
+</html>
