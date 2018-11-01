@@ -17,17 +17,17 @@
     // let p = new Person(10,'man');
     // console.log(p.age);
     // p.sex();
-    function Person(name){
-        this.name=name;
-    }
-    Person.prototype.getName=function(){
-        console.log(this.name);
-        console.log(this);
+    // function Person(name){
+    //     this.name=name;
+    // }
+    // Person.prototype.getName=function(){
+    //     console.log(this.name);
+    //     console.log(this);
         
-    }
-    Person.prototype.getName();
-    var person = new Person("Nxxxxxx");
-    person.getName();
+    // }
+    // Person.prototype.getName();
+    // var person = new Person("Nxxxxxx");
+    // person.getName();
 // function Foo() {
 // getName = function () { alert (1); };
 // return this;
@@ -46,6 +46,15 @@
 // new Foo.getName();//2
 // new Foo().getName();//3
 // new new Foo().getName();//3
+function fn (a){
+    console.log(this);
+    this.a = a;
+}
+fn.prototype.aa = function cc() {
+    console.log(this.a);
+}
+let b = new fn(1);
+console.log(b.aa);
 
     </script>
 </body>
