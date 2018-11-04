@@ -115,7 +115,7 @@ c.say();
 
 ### 面向对象的继承方式
 ```javascript
-/*
+/*  
     call继承
         继承属性
         调用父类，通过call改变this
