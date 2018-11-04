@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let obj = {
+            name: 'xx',
+            age: 99,
+            sex: 'man'
+        }
+        let obj3 = {
+            name: 'yy',
+            age: 88,
+            job: '爬'
+        }
+        let obj2 = Object.assign({}, obj); //obj2 = {name: 'xx',age:99,sex:'man'}
+        let obj2 = Object.assign({}, obj, obj3); //obj2 = {name:'yy',age:88,sex:'man',job:'爬'} obj = {name:'xx',age:99,sex:'man'}
+        let obj2 = Object.assign(obj, obj3); //obj = {name:'yy',age:88,job:'爬',sex:'man'}
+        console.log(obj);
+        console.log(obj2);
+        
+    </script>
+</body>
+
+</html>
