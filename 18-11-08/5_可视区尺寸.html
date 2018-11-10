@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 0;
+            top: 0;
+            padding: 100px;
+            border: 10px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        /*
+            当前看的见的尺寸:
+                ele.clientWidth/ele.clientHeight number类型,没有单位
+                支持padding,不支持border
+            
+            即支持padding野支持border的
+                offsetWidth/offsetHeight number类型,没有单位
+                如果没有固定的宽高,那么会计算被内容撑开的高度
+
+            就算有固定宽高,也能获取被内容撑开的宽高的:
+                scrollWidth/scrollHeight 不包含border
+        */
+        console.log(box.offsetWidth);
+    </script>
+</body>
+</html>

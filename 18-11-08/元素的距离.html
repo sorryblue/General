@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    div{
+        padding: 100px;
+    }
+    #box1{
+        background: red;
+    }
+    #box2{
+        background: yellowgreen;
+        position: relative;
+        border: 10px solid black;
+    }
+    #box3{
+        background: skyblue;
+        position: absolute;
+        border: 10px solid black;
+    }
+</style>
+<body>
+    <div id="box1">
+        <div id="box2">
+            <div id="box3"></div>
+        </div>
+    </div>
+    <script>
+        /*
+            offsetLeft
+                子元素的左外边框到定位父级的左内边框的距离
+            offsetTop
+                子元素的上外边框到定位父级的上内边框的距离
+            offsetParent
+                子元素的定位父级是谁
+            如果子级没有定位默认走body
+
+            元素绝对位置的计算思路:
+                先计算当前元素的定位距离和边框,当前元素有定位父级,再计算(包括边框),定位父级的定位距离,一直到没有定位父级,就不计算了,最后减去目标元素的左边框
+            边框的计算:
+                ele.clientLeft/Top 元素的左边框/元素的上边框
+                getComputedStyle(box3).borderLeftWidth
+
+            ele.getBoundingClientRect() -> 返回的是一个对象
+                有x,y,left,right,top,width,height,bottom
+                注意:
+                    获取的这个值会随着浏览器的变化来变,比如获取top值,如果有滚动条,那么这个值就会变化
+                    它是一直以浏览器可视区为依据,来计算元素到当前可视区的位置
+        */
+        console.log(box3.offsetLeft);
+
+    </script>
+</body>
+</html>

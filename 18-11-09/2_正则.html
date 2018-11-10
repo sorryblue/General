@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            正则:
+            专门检索模糊范围的字符串的一种规则
+            简写常用情况:
+            不需要字符串拼接,不使用参数、变量的时候使用
+            标准写法 new RegExp(// || '',修饰符):
+            常用情况:
+            在字符串拼接或有变量、参数的时候使用
+            转义符:
+            \
+            在\ + 一个字母可能会有一定的含义,这些具有特殊含义的符号叫元字符
+            \n
+            \d
+            \s
+        */    
+        // let str = 'abc';
+        // console.log(str.match(/a+/g));
+
+        // let x = 'a';
+        // let str = 'abc';
+        // // let re = /xb/;
+        // let re = new RegExp( x + 'b');
+        // console.log(re);
+
+        // let re = /a/;
+        let re = new RegExp('/a/'); // a /a/ -> / \/a\/ /
+        console.log(re);
+        let str1 = 'dsadk1\\';
+        console.log(str1);
+    </script>
+</body>
+</html>

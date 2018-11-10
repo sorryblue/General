@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        const box = document.getElementById('box');
+        console.log(box.style.width);//获取不到
+        console.log(getComputedStyle(box).width);
+        
+        /*
+            元素计算之后的样式:
+                getComputedStyle(ele).attr 带单位的尺寸
+                ele.currentStyle.attr(IE低版本下使用)
+        */
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="txt">
+    <button id="btn">发送</button>
+    <ul id="ul"></ul>
+    <script>
+        const txt = document.getElementById('txt'),
+            btn = document.getElementById('btn'),
+            ul = document.getElementById('ul');
+        
+        let arr = ['嚓','靠','艹','妹','sb','傻','脏'],
+            arr2 = ['$','#','@','^','&','*'],
+            re = new RegExp(arr.join('|'),'gi');
+        btn.onclick = function () {
+            let val = txt.value;
+            if(!val){
+                alert('请输入内容');
+                return;
+            }
+            let s = val.replace(re,function($0){
+                let temp = '';
+                for (let i = 0; i < $0.length; i++) {
+                    temp += arr2.sort(()=>Math.random()-.5)[0];
+                }
+                return temp;
+            });
+            let li = document.createElement('li');//创建元素
+            li.innerHTML = s;
+            ul.appendChild(li);
+            txt.value = '';//清楚元素的value值 如果写了val = '';只是清楚了val这个变量的值,并没有操作txt中的文本
+        }
+
+        /*
+            随机排序技巧
+            sort:
+                必须返回一个数字
+                返回的数字是个证书 换位置
+                负数不换位置
+        */
+
+        arr2.sort(()=>{
+            return Math.random()-.5;
+        });
+
+        // let arr3 = [1,2,3,4,5];
+        // arr3.sort((a,b)=>{
+        //     return b-a;
+        // });
+        // console.log(arr3);
+
+        // for (let i = 0; i < 1000; i++) {
+        //     console.log(Math.random());
+        // }
+
+        console.log(arr2);
+    </script>
+</body>
+</html>
