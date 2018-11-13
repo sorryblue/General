@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="txt">
+    <button id="btn">发送</button>
+    <ul id="ul"></ul>
+    <script>
+        const txt = document.getElementById('txt');
+        const btn = document.getElementById('btn');
+        const ul = document.getElementById('ul');
+        let arr = ['嚓','靠','艹','妹','sb','傻','脏'];
+        let arr2 = ['$','#','@','^','&','*'];
+        let re = new RegExp(arr.join('|'),'gi');
+        btn.onclick = function(){
+            let val = txt.value;
+            if(!val){
+                alert('请输入内容');
+                return;
+            }
+            //随即过滤敏感词
+            let s = val.replace(re,function($0){
+                console.log($0);
+                let temp = '';
+                for (let i = 0; i < $0.length; i++) {
+                    temp += arr2.sort(()=>Math.random()-.5)[0];
+                }
+                return temp;
+            });
+            let li = document.createElement('li');//创建元素
+            let a = document.createElement('a');//创建反和谐的按钮
+            let span = document.createElement('span');//创建文字
+            a.href = 'javascript:;';
+            a.innerHTML = '反和谐';
+            span.innerHTML = s;//把处理过后的文字给span
+            span.aaa = val;//给span价格自定义属性,并且把没有处理过的val存进去,目的是为了取
+            a.onclick = function(){
+                //点击的时候找到上一个span
+                let prev = this.previousElementSibling;
+                //修改span的内容,内容就通过刚才存的aaa获取
+                prev.innerHTML = prev.aaa;
+            }
+            li.appendChild(span);
+            li.appendChild(a);
+            ul.appendChild(li);
+            txt.value = '';//清楚元素的value值,如果写了val = '';只是清楚了val这个变量的值,并没有操作txt中的文本
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #box{
+            width:100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left:100px;
+            top:0;
+        }
+        </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        var timer = null;
+        var duration = 10000;
+        var count = 500;
+        document.documentElement.onclick = function(){
+            var t = 0;
+            var begin = parseFloat(getComputedStyle(box).left);
+            count = count - begin;
+            timer = setInterval(function(){
+                t += 16.7;
+                if(t >= duration){
+                    t = duration;
+                }
+                box.style.left = t/duration * count + begin + 'px';
+                if(t === duration){
+                    clearInterval(timer);
+                }
+        },16.7)
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 100px;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+    <script>
+        /*
+            在前端能用css操作的尽量用css,因为性能更好
+            js动画在以前主要是使用定时器
+            主流屏幕刷新频率都是60hz,渲染一帧的事件就必须控制在16.7ms内才能保证不掉帧
+
+            速度版
+            通过改变num值
+            时间版
+            通过一段时间换算他的位置
+            核心原理都是在某个时间点上,运动多少
+            定时器写的16.7不一定是16.7,是16.7左右
+
+            *t: time 已过时间
+            *b: begin 初始值
+            *c: count 总的运动值
+            *d: duration 总的持续时间
+            b + t/d * c
+        */
+        let timer = null;
+        let duration = 10000;
+        let count = 500;
+
+        
+
+        document.onclick = () => {
+            let old = new Date;
+            let begin = parseFloat(getComputedStyle(box).left);
+            count = count - begin;
+            timer = setInterval(() => {
+                let t = new Date - old; //用了多少时间
+                if (t >= duration) {
+                    t = duration;
+                }
+                box.style.left = t / duration * count +begin+ 'px';
+                if (t === duration) {
+                    clearInterval(timer);
+                }
+
+            }, 16.7)
+        }
+
+
+        // timer = setInterval(()=>{
+        //     let t = new Date - old;
+        //     if(t >= duration){
+        //         box.style.left = count + 'px';
+        //         clearInterval(timer);
+        //     }else{
+        //     box.style.left = t/duration * count + 'px';
+        //     }
+        // },16.7)
+    </script>
+</body>
+
+</html>
