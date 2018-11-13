@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body{
+            height: 3000px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        /*
+            滚动距离:
+                window.pageXOffset/window.pageYOffset 高版本 只能读不能写
+                
+                 
+                document.documentElement.scrollTop 低版本 能读能写
+
+                docuemnt.body.scrollTop  IE 
+                
+                window.scrollTo(x,y) 专门用来写滚动条的距离
+        */    
+       window.onscroll = function(){
+           console.log(window.pageYOffset);
+       }
+    </script>
+</body>
+</html>
