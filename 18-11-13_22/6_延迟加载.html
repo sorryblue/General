@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <style>
+        #list img{
+            opacity: 0;
+            transition: 1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <span>排序</span>
+            <a href="javascript:;" kk="time">上架时间
+                <i class="up"></i>
+                <i class="down"></i>
+            </a>
+            <a href="javascript:;" kk="hot">热度
+                <i class="up"></i>
+                <i class="down"></i>
+            </a>
+            <a href="javascript:;" kk="price">价格
+                <i class="up"></i>
+                <i class="down"></i>
+            </a>
+        </div>
+        <ul id="list">
+            <!-- <li>
+                <img src="img/1.jpg" alt="">
+                <span>华为畅享7（香槟金）</span>
+                <span>2018-01-01</span>
+                <span>1</span>
+                <span>992</span>
+            </li> -->
+        </ul>
+    </div>
+    <script src="json/product.js"></script>
+    <script src="./my_tools.js"></script>
+    <script>
+       data.push(...data);//复制数据
+
+       //生成结构
+       let temp = '';
+       data.forEach(d => {
+           temp += `
+                <li index = "${d.img}">
+                    <img alt="">
+                    <span>${d.title}</span>
+                    <span>${d.time}</span>
+                    <span>${d.price}</span>
+                    <span>${d.hot}</span>
+                </li>
+           `;
+       });
+       list.innerHTML = temp;
+
+       //获取每个li的绝对位置
+       let lis = document.getElementsByTagName('li');
+
+       //给每个li设置高度的自定义属性
+       //优点:
+       //   因为找绝对位置是通过while循环求出来的
+       //   而这个循环只把,每个元素的绝对位置计算一次出来
+       //   如果放到滚轮事件中,每滚轮一次都会计算一次,性能就稍微差一些
+
+       for(let i = 0;i < lis.length;i++){
+           lis[i].top = obj.offset(lis[i]).t;
+           console.log(lis[i].top)
+       }
+
+       let iH = window.innerHeight;//可视区高度
+       //如果全部加载完成,再次滚轮的时候就不用循环了
+       let num = 0;
+       fn();//每滚轮的时候也要看一次那些图片应该显示
+       window.onscroll = function(){
+           clearInterval(timer);
+           timer = setTimeout(function(){
+               fn();
+           },500);
+        }
+
+           
+    </script>
+</body>
+</html>

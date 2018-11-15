@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/index.css">
+<style>
+#mask{
+    width:1000px;
+    height: 300px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 2;
+    font-size:0;
+}
+#prev,#next{
+    width:50%;
+    height:300px;
+    display: inline-block;
+}
+
+#prev::after{
+    content: "";
+    width:28px;
+    height: 45px;
+    background:url('./img/pre.png') 0 0 no-repeat;
+    position:absolute;
+    left:0;
+    top:128px;
+    opacity: 0;
+    transition: 1s;
+    cursor: pointer;
+}
+#next::after{
+    content: "";
+    width:28px;
+    height: 45px;
+    background:url('./img/pre.png') -50px 0 no-repeat;
+    position:absolute;
+    right:0;
+    top:128px;
+    opacity: 0;
+    transition: 1s;
+    cursor: pointer;
+}
+#prev:hover::after,#next:hover::after{
+    opacity: 1;
+}
+
+
+</style>
+</head>
+<body>
+<div id="outer">
+    <div id="mask">
+        <div id="prev"></div>
+        <div id="next"></div>
+    </div>
+    <div id="swiper" style="transition: .3s;">
+        <div><img src="img/banner1.jpg" alt=""></div>
+        <div><img src="img/banner2.jpg" alt=""></div>
+    </div>
+    <ul id="focus">
+        <li class="select"></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<script>
+    const img = document.getElementsByTagName('img');
+    const next = document.getElementById('next');
+    const prev = document.getElementById('prev');
+    const ul = document.getElementById('focus');
+    const lisL = document.getElementsByTagName('li');
+    const lis = Array.from(lisL);
+    const mask = document.getElementById('mask');
+    const iW = 1000;
+    let prev1 = lis[0];
+    let timer = null;
+    let num = 1;
+    let onOff = false;
+    mask.onmouseover = function(){
+        clearInterval(timer);
+    }
+    mask.onmouseout = function(){
+        timer = setInterval(next.onclick,1000);
+    }
+    ul.onmouseover = function(){
+        clearInterval(timer);
+    }
+    ul.onmouseout = function(){
+        timer = setInterval(next.onclick,1000);
+    }
+    // prev.onclick = function(){
+    //     num --;
+    //     if(num < 1){
+    //         num = 4;
+    //     }
+    //     img[1].src = 'img/banner' + num + '.jpg';
+    //     swiper.style.left = -iW + 'px';
+    //     prev1.className = '';
+    //     lis[num - 1].className = 'select';
+    //     setTimeout(function(){
+    //         swiper.style.transition = '';
+    //         img[0].src = 'img/banner' + num + '.jpg';
+    //         swiper.style.left = 0;
+    //         setTimeout(function(){
+    //             swiper.style.transition = '.3s';
+    //             prev1 = lis[num - 1];
+    //         },30)
+    //     },300)
+    // }
+    prev.onclick = function(){
+        if(onOff)return;
+        onOff = true;
+        img[1].src = 'img/banner' + num + '.jpg';
+        swiper.style.transition = '';
+        swiper.style.left = -iW + 'px';
+            num --;
+            if(num < 1){
+                num = 4;
+            }
+        setTimeout(function(){
+            prev1.className = '';
+            lis[num - 1].className = 'select';
+            img[0].src = 'img/banner' + num + '.jpg';
+            swiper.style.transition = '.3s';
+            swiper.style.left = 0;
+            prev1 = lis[num - 1];
+            onOff = false;
+        },30)
+    }
+    next.onclick = function(){
+        if(onOff)return;
+        onOff = true;
+        num++;
+        if(num > 4){
+            num = 1;
+        }
+        img[1].src = 'img/banner' + num + '.jpg';
+        swiper.style.left = -iW + 'px';
+        prev1.className = '';
+        lis[num - 1].className = 'select';
+        setTimeout(function(){
+            swiper.style.transition = '';
+            img[0].src = 'img/banner' + num + '.jpg';
+            swiper.style.left = 0;
+            setTimeout(function(){
+                swiper.style.transition = '.3s';
+                prev1 = lis[num - 1];
+                onOff = false;
+            },30)
+        },300);
+    }
+    timer = setInterval(next.onclick,1000);
+
+    lis.forEach((e,i) => { 
+        e.onclick = function(){
+            if(num === i + 1)return;
+            img[1].src = 'img/banner' + (i + 1) + '.jpg';
+            swiper.style.left = -iW + 'px';
+            prev1.className = '';
+            lis[i].className = 'select';
+            setTimeout(()=>{
+                img[0].src = 'img/banner' + (i + 1) + '.jpg';
+                swiper.style.transition = '';
+                swiper.style.left = 0;
+                setTimeout(()=>{
+                    swiper.style.transition = '.3s';
+                    prev1 = lis[i];
+                    onOff = false;
+                    num = i + 1;
+                },30);
+            },310);
+        }
+    });
+</script>
+</body>
+</html>
