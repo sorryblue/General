@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+    li{
+        border: 2px solid red;
+    }
+    ul{
+        border: 2px solid black;
+    }
+</style>
+</head>
+<body>
+    <ul id="ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+<script>
+    /*
+        事件对象:
+            当用户触发了某个事件的时候,事件函数的第一个参数就为事件对象
+
+            这个对象是记录了用户操作浏览器或者元素时的相关细节信息
+
+            低版本IE中的事件对象不在时间函数中,在window中,有个event属性
+            var ev = ev || event;
+
+            firefox下事件对象只有在事件函数的第一个参数才有,window是没有的
+            如果在火狐下直接访问event那么就会报错(因为没有这个变量) 只能用window.event
+            var ev = window.event || ev;
+
+            chorm window有,事件函数中的第一个参数也有
+
+            事件监听(事件源)
+                在事件对象中有一个属性叫做target,他能够捕获到事件触发时的源头是哪个元素
+            注意:
+                只有嵌套关系才能获到准确的事件源
+    */
+    const ul = document.getElementById('ul');
+    const lis = Array.from(document.getElementsByTagName('li'));
+    // ul.onclick = function(){
+    //     this.style.background = 'green';
+    // }
+    let onOff = true;
+    ul.onclick = function(ev){
+        if(onOff){
+            ev.target.style.background = 'blue';
+        }else{
+            ev.target.style.background = '';
+        }
+        onOff = !onOff
+        // ev.target.style.background = 'blue';
+    }
+</script>
+</body>
+</html>

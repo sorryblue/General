@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+    #box{
+        width: 100px;
+        height: 100px;
+        background: red;
+    }
+</style>
+</head>
+<body>
+    <button id="btn">按钮</button>
+    <div id="box"></div>
+<script>
+    /*
+        当点击按钮的时候,应该让box显示,但是因为有冒泡特性,按钮执行完按钮的onclick函数之后,还会执行document的onclick时间函数,所以看上去是没有发生变化的
+
+        注意:
+            在开发的过程中,如果两个元素是嵌套关系,就要小心,事件冒泡(两个事件尽量避免重名)
+
+        阻止冒泡:(在事件源上阻止冒泡,就能解决祖先执行的问题)
+            ev.cancelBubble = true;
+            ev.cancelBubble不是标准,但是所有浏览器都能兼容
+            ev.stopPropagation()这个是标准,但是低版本浏览器不兼容
+    */
+    const box = document.getElementById('box');
+    const btn = document.getElementById('btn');
+    let onOff = true;
+    btn.onclick = function(ev){
+        if(onOff){
+            box.style.display = 'none';
+        }else{
+            box.style.display = '';
+        }
+        onOff = !onOff;
+        ev.cancelBubble = true;//阻止了btn的onclick的事件不往上冒泡
+    }
+    document.onclick = function(){
+        box.style.display = 'none';
+        onOff = false;
+    }
+</script>
+</body>
+</html>

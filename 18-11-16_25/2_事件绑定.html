@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 200px;
+            height: 200px;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <button id="btn">点击</button>
+<script>
+    /*
+        在传统事件中,同一个元素绑定多次同一个事件,那么后面的时间函数会把前面的时间函数给覆盖
+
+        在DOM2事件绑定中,可以让同一个元素,绑多次同一个事件
+
+        DOM0事件: on开头的 
+
+        DOM1事件: 1级DOM标准中并没有定义事件相关的内容,所以没有所谓的1级DOM事件模型
+
+        DOM2事件: 在2级DOM中除了定义一些DOM相关的操作之外,还定义了一个事件模型,这个标准下的事件模型就是我们所说的2级DOM事件模型
+        addEventListener 事件绑定
+        removeEventListener 解除事件绑定
+        ele.addEventListener('不带on的事件名',事件函数,布尔值(默认不捕获))
+        ele.removeEventListener('不带on的事件名',事件名(***和绑定事件的函数为同一个地址的函数),布尔值)
+
+        在开发移动端的时候,就要用DOM2,不然有些浏览器不会触发手机端事件
+
+        在IE低版本用:
+            绑定:
+                attachEvent('带on的事件名',事件函数)
+            解除绑定:
+                detachEvent('带on的事件名',事件函数)
+    */    
+    const box = document.getElementById('box');
+    const btn = document.getElementById('btn');
+
+//    box.onclick = function(){
+//        alert('1');
+//    }
+//    box.onclick = function(){
+//        alert('2'); //只会弹2
+//    }
+
+    // box.addEventListener('click',function(){
+    //     alert('1');
+    // })
+    // box.addEventListener('click',function(){
+    //     alert('2');
+    // })
+
+    // box.addEventListener('click',function(){
+    //     alert('1');
+    //     box.addEventListener('click',function(){
+    //         alert('2');
+    //     })
+    // })//在点击第一次的时候,只是把2的事件绑定,第二次点击的时候,才会触发2,每点击一次就会多绑定一个2事件函数
+
+    box.addEventListener('click',fn);
+    function fn(){
+        alert('1');
+    }
+    btn.addEventListener('click',function(){
+        box.removeEventListener('click',fn);
+    });
+</script>    
+</body>
+</html>
