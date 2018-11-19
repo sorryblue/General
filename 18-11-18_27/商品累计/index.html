@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>dd</title>
+		<style>
+			body,
+			ul,
+			li {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="price.css" />
+	</head>
+
+	<body onselectstart="return false;">
+		<div class="wrap">
+			<div class="box">
+				<ul class="list"></ul>
+				<div class="info" id="info">
+					<span>商品公合计：<em>0</em>件</span>
+					<span>共花费了：<em>0</em>元</span>
+					<br />
+					<br />
+					<span>其中最贵的商品单价是：<em>0</em>元</span>
+				</div>
+			</div>
+		</div>
+<script src="./json/price.js"></script>
+<script>
+	//生成结构
+	const ul = document.querySelector('.box .list');
+	let temp = '';
+	commodity.forEach(d => {
+		temp += `
+			<li>
+				<i class="down"></i>
+				<em>0</em>
+				<i class="up"></i>
+				<span>
+					单价：<strong>${d.dPriceC}元</strong> 小计：<strong>${d.zPriceC}元</strong>
+				</span>
+			</li>
+		`;
+	});
+	ul.innerHTML = temp;
+
+	//点击加减
+	let numPrice = 0;
+	let arr = [];
+	let p = 0;
+	const lis = Array.from(document.querySelectorAll('.list li'));
+	lis.forEach(e=>{
+		const liEm = e.querySelector('em');
+		const iDown = e.querySelector('.down');
+		const iUp = e.querySelector('.up');
+		const price = e.querySelectorAll('span strong');
+		const info = document.getElementById('info');
+		const spEm = info.querySelectorAll('em');
+		let dPrice = parseFloat(price[0].innerHTML);
+		let num = 0;
+		iDown.onclick = function(ev){
+			num--;
+			if(num < 0){
+				num = 0;
+			}else{
+				numPrice--;
+				p -= parseFloat(price[0].innerHTML);
+				spEm[1].innerHTML = p;
+			}
+			liEm.innerHTML = num;
+			price[1].innerHTML = num*dPrice + '元';
+			spEm[0].innerHTML = numPrice;
+			let m = parseFloat(ev.target.parentNode.querySelectorAll('strong')[0].innerHTML);
+			let n = arr.indexOf(m);
+			if(!parseFloat(liEm.innerHTML)){
+				arr.splice(n,1);
+				spEm[2].innerHTML = Math.max(...arr);
+				if(!arr.length){
+					spEm[2].innerHTML = 0;
+				}
+			}
+		}
+		iUp.onclick = function(ev){
+			num++;
+			if(num > 9){
+				num = 9;
+			}else{
+				numPrice++;
+				p += parseFloat(price[0].innerHTML);
+				spEm[1].innerHTML = p;
+			}
+			liEm.innerHTML = num;
+			price[1].innerHTML = num*dPrice + '元';
+			spEm[0].innerHTML = numPrice;
+			let m = parseFloat(ev.target.parentNode.querySelectorAll('strong')[0].innerHTML);
+			let n = arr.indexOf(m);
+			if(n === -1){
+				arr.push(parseFloat(e.querySelectorAll('strong')[0].innerHTML));
+			}
+			spEm[2].innerHTML = Math.max(...arr);
+		}
+	});
+	</script>
+</body>
+
+</html>

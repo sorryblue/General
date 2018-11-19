@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        ele.oninput = function(){
+                 if(re[this.cName].test(this.value)){
+                     this.classList.remove('nook');
+                     this.classList.add('ok');
+                     arr[i] = true;
+                 }else{
+                     this.classList.remove('ok');
+                     this.classList.add('nook');
+                     arr[i] = false;                 
+             }
+             btn.disabled = !arr.every(e =>e);
+             btn.className =!arr.every(e=>e)?'bnd':'nd';
+         };
+         console.log(arr)
+
+    </script>
+</body>
+</html>

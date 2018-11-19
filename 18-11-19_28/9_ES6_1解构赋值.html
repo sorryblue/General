@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    /*
+    解构赋值:
+        如果要解构数组,声明变量的时候就要是个数组
+
+        数组中的变量可以默认赋值,当等号右边没有值的情况下,会走默认,否则走右边的值
+*/
+
+// var a = 10;
+var b = 5;
+
+// var c = 0;
+// c = a;
+// a = b;
+// b = c;
+
+// var [b,a] = [a,b];
+var [b = 5,a] = [a,b];
+console.log(a,b);
+</script>
+</body>
+</html>

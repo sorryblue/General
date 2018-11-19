@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 10em;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+<script>
+    /*
+    运动
+        当前运动的时间: time
+        总的事件: duration
+        总距离: count
+        开始的位置; begin
+        time/duration*count
+        
+        requestAnimationFrame 16.7根据刷新频率来
+
+        getComputedStyle(box) 获取的width带单位是px,用的时候需要去单位
+*/  
+// let timer = null;  
+// let time = 0;
+// (function animate(){
+//     timer = requestAnimationFrame(animate);
+//     time += 16.7;
+//     if(time >= 10000){
+//         time = 10000;
+//     }
+//     box.style.left = time/10000*500 + 'px';
+//     if(time === 10000){
+//         cancelAnimationFrame(timer);
+//     }
+// })()
+console.log(getComputedStyle(box).left);
+</script>
+</body>
+</html>

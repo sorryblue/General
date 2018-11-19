@@ -32,6 +32,7 @@
     <script>
         wrap.onmousemove = function(ev){
             /*
+            ev.clientX/ev.clientY 对于窗口可视区的xy坐标位置
             为什么要减wrap的距离和边框?
                 因为ev.clientX/ev.clientY是可视区到鼠标的位置,而不是wrap的00点到鼠标的位置
                 所以要减去wrap
@@ -51,6 +52,7 @@
         }
         box.style.left = l + 'px';
         box.style.top = t + 'px';
+        box.style.transition = '.1s';
         }
         wrap.onmouseover = function(){
             box.style.display = 'block';

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+        \b 边界符(非字符的,也就是空格和字符之间的位置)
+        \B 非边界符
+
+    */
+    // let str = 'sada sd sds';
+    // console.log(str.replace(/\b/g,'|'));
+
+    let str = "Great hope make great man";
+    let arr_m = str.match(/\b\w+\b/g);//提取字符串中所有单词
+    console.log(arr_m);
+    // arr_m = ["Great","hope","make","great"," man"]
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: .3s;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+<script>
+    /*
+    系统为了优化用户体验,在按下时会停顿一小段时间(443ms左右),留出时间让用户抬起按键,
+    如果超过时间用户没有抬起来,系统会判定用户在长按某个键,防止用户输入时,不留神输入大量的内容
+
+
+*/
+let timer = null;
+let num = 0;
+document.onkeydown = function(ev){
+    clearInterval(timer);
+    timer = setInterval(() => {
+        switch(ev.keyCode){
+        case 37:
+            box.style.left = box.offsetLeft - 100 + 'px';
+        break;
+        case 38:
+            box.style.top = box.offsetTop - 100 + 'px';
+        break;
+        case 39:
+            box.style.left = box.offsetLeft + 100 + 'px';
+        break;
+        case 40:
+            box.style.top = box.offsetTop + 100 + 'px';
+        break;
+        }
+    },20);
+    
+}
+</script>
+</body>
+</html>
