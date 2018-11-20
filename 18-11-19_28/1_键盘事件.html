@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <textarea id="text" cols="30" rows="10"></textarea>
+    <button id="anN">确定</button>
+    <button id="off">关闭</button>
+<script>
+    /*
+    键盘事件:
+        当按键的时候触发的事件,所有的按键只认一次,如果有两次,
+        那么第二次就会把第一次的给覆盖,所以说如果一般要使用组合键,
+        那么得使用特殊的按键符    
+
+    特殊按键:(值为布尔,按着就是true,没按着就是false,默认是false)
+        ctrlkey
+        shiftkey
+        altkey
+    
+    onkeydown
+        键盘按下 只要按着不抬起会一直触发
+
+        注意:
+            通过onkeydown获取输入得内容会比当前按键少一次,所以一般都用onkeyup
+    onkeyup
+        键盘抬起
+
+    每个按键中都有对应得键值,这个键值是非常有规律得,这些键值通过事件对象中的keyCode来获取
+
+    常用的键值:
+        左上右下
+            37,38,39,40
+        数字0-9
+            48-57
+        英文a-z
+            65-90
+        回车
+            13
+
+    switch 跟 if 差不多,当某个固定的变量或者属性会发生变化的时候使用
+
+    注意:
+        每个case完要用break(在函数中可以用return)终止switch
+        不然会穿透(当前成立得条件之后得代码(包括下面得case)都会执行)
+    
+    switch(变量|属性){
+        case 具体条件:
+            上面条件成立得执行语句
+        break;
+        default:
+            如果上面的判断都不成立,就默认执行default的代码
+            
+    }
+*/
+
+// const text = document.getElementById('text');
+// const anN = document.getElementById('anN');
+// let arr =['h','e','l','l','o','w','o','r','l','d','!'];
+// let timer = null;
+// let num = 0;
+// function move(){
+//     timer = setInterval(function(){
+//         if(num < arr.length){
+//             text.innerHTML += arr[num];
+//             num++;
+//         }else{
+//             num = 0;
+//         }
+//     },300);
+// }
+// anN.addEventListener('click',move);
+// off.addEventListener('click',function(){
+//     clearInterval(timer);
+// });
+document.onkeyup = function(ev){
+    console.log(ev.keyCode);
+}
+</script>
+</body>
+</html>

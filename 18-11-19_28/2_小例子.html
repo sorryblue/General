@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="txt" />
+    <button id="btn">确定</button>
+    <ul id="ul"></ul>
+<script>
+    let temp = '';
+    btn.onclick = function(){
+        let val = txt.value;
+        temp += `<li>${val}</li>`;
+        ul.innerHTML = temp;
+        txt.value = '';
+    }
+
+    txt.onkeyup = function(ev){
+        if(ev.ctrlkey && ev.keyCode === 13){
+            btn.onclick();
+        }
+    }
+</script>
+</body>
+</html>
