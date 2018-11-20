@@ -62,12 +62,11 @@
             click(ev){
                 let ll = 0;
                 let tt = 0;
-                // this.moveDown(ll,tt);
                 x.reverse();
                 y.reverse();
                 let that = this;
                 let i = 0;
-                function f(){
+                function moveDown(){
                     if(i < x.length){
                         ll = x[i];
                         tt = y[i];
@@ -76,30 +75,11 @@
                     }
                     i++;
                 }
-                let t = setInterval(f,16.7);
+                let t = setInterval(moveDown,16.7);
                 if (i >= x.length){
                     clearInterval(t);
                 }
             }
-                
-            // }
-            // moveDown(ll,tt){
-            //     let that = this;
-            //     var i=0;
-            //     function f(){
-            //         if(i<x.length){
-            //             ll = x[i];
-            //             tt = y[i];
-            //             that.box.style.left = ll + 'px';
-            //             that.box.style.top = tt + 'px';
-            //         }
-            //         i++;
-            //     }
-            //     var t = setInterval(f,16.7);
-            //     if(i>=x.length){
-            //         clearInterval(t);
-            //     }
-            // }
         }
 
         let t = new Upside('box','btn');
