@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            width: 100px;
+            height: 100px;
+            background: skyblue;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #btn{
+            position: absolute;
+            top: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <button id="btn">点击</button>
+    <script>
+        let x = [];
+        let y = [];
+        class Upside{
+            constructor(box,btn){
+                this.box = document.getElementById(box);
+                this.btn = document.getElementById(btn);
+            }
+            init(){
+                this.c = this.click.bind(this);
+                this.btn.addEventListener('click',this.c);
+                this.d = this.down.bind(this);
+                this.box.addEventListener('mousedown',this.d);
+            }
+            down(ev){
+                this.disX = ev.pageX - this.box.offsetLeft;
+                this.disY = ev.pageY - this.box.offsetTop;
+                this.m = this.move.bind(this);
+                document.addEventListener('mousemove',this.m);
+                this.u = this.up.bind(this);
+                document.addEventListener('mouseup',this.u);
+            }
+            move(ev){
+                let l = ev.pageX - this.disX;
+                let t = ev.pageY - this.disY;
+                this.box.style.left = l + 'px';
+                this.box.style.top = t + 'px';
+                x.push(l);
+                y.push(t);
+            }
+            up(){
+                document.removeEventListener('mousemove',this.m);
+                document.removeEventListener('mouseup',this.u);
+            }
+            click(ev){
+                let ll = 0;
+                let tt = 0;
+                // this.moveDown(ll,tt);
+                x.reverse();
+                y.reverse();
+                let that = this;
+                let i = 0;
+                function f(){
+                    if(i < x.length){
+                        ll = x[i];
+                        tt = y[i];
+                        that.box.style.left = ll + 'px';
+                        that.box.style.top = tt + 'px';
+                    }
+                    i++;
+                }
+                let t = setInterval(f,16.7);
+                if (i >= x.length){
+                    clearInterval(t);
+                }
+            }
+                
+            // }
+            // moveDown(ll,tt){
+            //     let that = this;
+            //     var i=0;
+            //     function f(){
+            //         if(i<x.length){
+            //             ll = x[i];
+            //             tt = y[i];
+            //             that.box.style.left = ll + 'px';
+            //             that.box.style.top = tt + 'px';
+            //         }
+            //         i++;
+            //     }
+            //     var t = setInterval(f,16.7);
+            //     if(i>=x.length){
+            //         clearInterval(t);
+            //     }
+            // }
+        }
+
+        let t = new Upside('box','btn');
+        t.init();
+
+    </script>
+</body>
+</html>

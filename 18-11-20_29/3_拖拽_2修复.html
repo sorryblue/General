@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    jdfhahilefajdnfawiefulakjdfnawiulefn
+    <div id="box"></div>
+    <script>
+        /*
+    拖拽三大事件:
+        onmousedown
+        onmousemove
+        onmouseup
+
+
+    如佛把move事件放在box上,当鼠标移动过快得时候,导致box脱手得情况
+    解决:
+        把move事件放在document上
+    如果把up放在box上,当鼠标移动到浏览器可视区最上面,看不见得时候,此时鼠标在document上,导致,之后box粘在鼠标上
+    解决:
+        把up放在document上面
+    
+    如果在抬起得时候不清up,那么在document上up时得所有操作都会执行一次,所以在up得时候把document上得up也清掉
+
+    当页面中有文字(图片)并且选中的时候,那么会有浏览器默认行为(使得拖拽元素拖动和抬起有问题)
+
+    解决:
+        在按下得时候阻止默认行为
+            DOM0: return false
+            DOM2: ev.preventDefault();
+*/
+        const box = document.getElementById('box');
+        let disX = 0;
+        let disY = 0;
+        let num = 0;
+        let onOff = true;
+
+        // box.onmousedown = function (ev) {
+        //     disX = ev.pageX;
+        //     disY = ev.pageY;
+        //     let dL = box.offsetLeft;
+        //     let dT = box.offsetTop;
+        //     box.onmousemove = function (ev) {
+        //         box.style.left = dL + (ev.pageX - disX) + 'px';
+        //         box.style.top = dT + (ev.pageY - disY) + 'px';
+        //     }
+        //     box.onmouseup = function () {
+        //         box.onmousemove = null;
+        //     }
+        // }
+
+        // 在document上点击不计数得情况,在box上点击计数
+        // box.onmousedown = function (ev) {
+        //     //按下的位置到元素边的位置那一小截
+        //     disX = ev.pageX - box.offsetLeft;
+        //     disY = ev.pageY - box.offsetTop;
+        //     document.onmousemove = function (ev) {
+        //         box.style.left = ev.pageX - disX + 'px';
+        //         box.style.top = ev.pageY - disY + 'px';
+        //     }
+        //     document.onmouseup = function () {
+        //         num++;
+        //         console.log(num);
+        //         document.onmousemove = null;
+        //         document.onmouseup = null;
+        //     }
+        // }
+
+        //按下拖拽松开才算一次得情况,点击box不计数得情况
+        box.onmousedown = function (ev) {
+            //按下的位置到元素边的位置那一小截
+            disX = ev.pageX - box.offsetLeft;
+            disY = ev.pageY - box.offsetTop;
+            document.onmousemove = function (ev) {
+                if (onOff) {
+                    num++;
+                    onOff = false;
+                }
+                box.style.left = ev.pageX - disX + 'px';
+                box.style.top = ev.pageY - disY + 'px';
+            }
+            document.onmouseup = function () {
+                console.log(num);
+                document.onmousemove = null;
+                document.onmouseup = null;
+                onOff = true;
+            }
+            return false;
+        }
+    </script>
+</body>
+
+</html>

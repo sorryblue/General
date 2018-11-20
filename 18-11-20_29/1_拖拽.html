@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+<script>
+    /*
+    拖拽三大事件:
+        onmousedown
+        onmousemove
+        onmouseup
+*/
+const box = document.getElementById('box');
+let disX = 0;
+let disY = 0;
+box.onmousedown = function(ev){
+    disX = ev.pageX;
+    disY = ev.pageY;
+    let dL = box.offsetLeft;
+    let dT = box.offsetTop;
+    box.onmousemove = function(ev){
+        box.style.left = dL + (ev.pageX - disX) + 'px';
+        box.style.top = dT + (ev.pageY - disY) + 'px';
+    }
+    box.onmouseup = function(){
+        box.onmousemove = null;
+    }
+}
+</script>
+</body>
+</html>
