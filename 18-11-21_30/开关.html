@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background: #000000;
+        }
+        #bg{
+            width: 100px;
+            height: 50px;
+            background: #000000;
+            position: relative;
+            top: 100px;
+            left: 100px;
+            border-radius: 50px;
+            border: 2px solid #3F3F3F;
+        }
+        #of{
+            background: #3A3A3A;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: 50%;
+            transition: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="bg">
+        <div id="of"></div>
+    </div>
+    <script>
+        class OnOff{
+            constructor(bg,of){
+                this.bg = document.getElementById('bg');
+                this.of = document.getElementById('of');
+                this.on = false;
+            }
+            init(){
+                this.h = this.hover.bind(this);
+                this.bg.addEventListener('mouseover',this.h);
+                this.o = this.out.bind(this);
+                this.bg.addEventListener('mouseout',this.o);
+            }
+            hover(){
+                this.of.style.transition = '.4s';
+                this.of.style.background = "#FEFEFE";
+                this.d = this.mouseD.bind(this);
+                this.bg.addEventListener('mousedown',this.d);
+            }
+            out(){
+                this.of.style.background = '#3A3A3A';
+            }
+            mouseD(){
+                this.bg.removeEventListener('mouseout',this.o);
+                this.of.style.transition = '.4s';
+                this.of.style.width = "70px";
+                this.of.style.borderRadius = '45%';
+                this.u = this.mouseU.bind(this);
+                this.bg.addEventListener('mouseup',this.u);
+                this.du = this.docUp.bind(this);
+                document.addEventListener('mouseup',this.du);
+            }
+            docUp(){
+                this.of.style.width = '50px';
+                this.bg.addEventListener('mouseout',this.o);
+                this.bg.cancelBubble = true;
+                document.removeEventListener('mouseup',this.u);
+            }
+            mouseU(){
+                let that = this;
+                console.log(1);
+                if(this.on){
+                    that.of.style.left = '0';
+                    that.bg.style.background = "#000000";
+                    that.bg.addEventListener('mouseout',that.o);
+                    that.on = false;
+                }else{
+                    that.of.style.width = "50px";
+                    that.of.style.borderRadius = '50%';
+                    that.of.style.left = '50px';
+                    that.bg.style.background = "#18B856";
+                    that.of.style.background = "#FEFEFE";
+                    that.bg.removeEventListener('mouseup',that.u);
+                    that.on = true;
+                }
+                this.bg.removeEventListener('mousedown',this.d);
+            }
+        }
+        let d = new OnOff('bg','of');
+        d.init();
+    </script>
+</body>
+</html>
