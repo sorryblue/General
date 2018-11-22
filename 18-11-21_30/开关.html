@@ -8,9 +8,6 @@
             margin: 0;
             padding: 0;
         }
-        body{
-            background: #000000;
-        }
         #bg{
             width: 100px;
             height: 50px;
@@ -20,6 +17,7 @@
             left: 100px;
             border-radius: 50px;
             border: 2px solid #3F3F3F;
+            box-shadow : 0px 0px 50px 5px #3F3F3F;
         }
         #of{
             background: #3A3A3A;
@@ -44,55 +42,74 @@
                 this.of = document.getElementById('of');
                 this.on = false;
             }
+
+
             init(){
                 this.h = this.hover.bind(this);
                 this.bg.addEventListener('mouseover',this.h);
-                this.o = this.out.bind(this);
-                this.bg.addEventListener('mouseout',this.o);
-            }
-            hover(){
-                this.of.style.transition = '.4s';
-                this.of.style.background = "#FEFEFE";
                 this.d = this.mouseD.bind(this);
                 this.bg.addEventListener('mousedown',this.d);
             }
-            out(){
-                this.of.style.background = '#3A3A3A';
-            }
-            mouseD(){
+
+
+            hover(){
                 this.bg.removeEventListener('mouseout',this.o);
                 this.of.style.transition = '.4s';
+                this.of.style.background = "#FEFEFE";
+                this.o = this.out.bind(this);
+                this.bg.addEventListener('mouseout',this.o);
+            }
+
+
+            out(){
+                this.of.style.background = '#3A3A3A';
+                console.log(2);
+            }
+
+
+            mouseD(){
+                this.bg.removeEventListener('mouseup',this.u);
                 this.of.style.width = "70px";
-                this.of.style.borderRadius = '45%';
+                this.of.style.borderRadius = '35px';
                 this.u = this.mouseU.bind(this);
                 this.bg.addEventListener('mouseup',this.u);
                 this.du = this.docUp.bind(this);
                 document.addEventListener('mouseup',this.du);
             }
+
+
             docUp(){
-                this.of.style.width = '50px';
-                this.bg.addEventListener('mouseout',this.o);
-                this.bg.cancelBubble = true;
-                document.removeEventListener('mouseup',this.u);
-            }
-            mouseU(){
                 let that = this;
-                console.log(1);
-                if(this.on){
-                    that.of.style.left = '0';
-                    that.bg.style.background = "#000000";
+                if(!this.on){
                     that.bg.addEventListener('mouseout',that.o);
+                }
+                this.of.style.width = '50px';
+            }
+
+
+            mouseU(ev){
+                this.bg.removeEventListener('mouseover',this.h);
+                this.bg.removeEventListener('mouseout',this.o);
+                console.log(2);
+                let that = this;
+                if(this.on){
+                    that.of.style.width = '50px';
+                    that.of.style.left = '0';
+                    that.of.style.background = '#FEFEFE';
+                    that.bg.style.background = '#000000';
+                    that.bg.style.boxShadow = "0px 0px 50px 5px #000000";
+                    that.bg.addEventListener('mouseover',that.h);
                     that.on = false;
                 }else{
-                    that.of.style.width = "50px";
-                    that.of.style.borderRadius = '50%';
+                    that.of.style.width = '50px';
                     that.of.style.left = '50px';
-                    that.bg.style.background = "#18B856";
-                    that.of.style.background = "#FEFEFE";
-                    that.bg.removeEventListener('mouseup',that.u);
+                    that.bg.style.background = '#18B856';
+                    that.bg.style.boxShadow = "0px 0px 50px 5px #18B856";
+                    that.bg.removeEventListener('mouseover',that.h);
+                    that.of.style.background = '#FEFEFE';
                     that.on = true;
                 }
-                this.bg.removeEventListener('mousedown',this.d);
+                ev.cancelBubble = true;
             }
         }
         let d = new OnOff('bg','of');
