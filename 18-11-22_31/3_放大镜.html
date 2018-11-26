@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            width: 350px;
+            height: 350px;
+            position: relative;
+            border: 1px solid black;
+            float: left;
+            margin-right: 100px
+        }
+        #box img{
+            width: 100%;
+            height: 100%;
+        }
+        #mark{
+            width: 175px;
+            height: 175px;
+            background: rgba(0,0,0,0.3);
+            position: absolute;
+            left: 0;
+            top: 0;
+            cursor: move;
+            display: none;
+        }
+        #bigBox{
+            width: 350px;
+            height: 350px;
+            border: 1px solid black;
+            position: relative;
+            overflow: hidden;
+            float: left;
+            display: none;
+        }
+        #bigBox img{
+            position: absolute;
+            width: 700px;
+            height: 700px;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <img src="./iphone.jpg" alt="">
+    <div id="mark"></div>
+</div>
+<div id="bigBox">
+    <img src="./iphone_big.jpg" alt="" id="img">
+</div>
+<script>
+box.onmouseover = function(){
+    mark.style.display = 'block';
+    bigBox.style.display = 'block';
+}
+box.onmouseout = function(){
+    mark.style.display = 'none';
+}
+let {right,bottom} = box.getBoundingClientRect();
+box.onmousemove = function(ev){
+    let l = ev.pageX - (mark.clientWidth/2);
+    let t = ev.pageY - (mark.clientHeight/2);
+    if(l < 0){
+        l = 0;
+    }else if(l > right - mark.clientWidth){
+        l = right - mark.clientWidth - 1;
+    }
+    if(t < 0){
+        t = 0;
+    }else if(t > bottom - mark.clientHeight){
+        t = bottom - mark.clientHeight - 1;
+    }
+    let scaleX = l/(right - mark.clientWidth - 1);
+    let scaleY = t/(bottom - mark.clientHeight - 1);
+    img.style.left = (bigBox.clientWidth - img.offsetWidth) * scaleX + 'px';
+    img.style.top = (bigBox.clientHeight - img.offsetHeight) * scaleY + 'px';
+
+    mark.style.left = l + 'px';
+    mark.style.top = t + 'px';
+}
+</script>
+</body>
+</html>
