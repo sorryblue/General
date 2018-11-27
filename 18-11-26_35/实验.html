@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+    <script>
+        const box = document.getElementById('box');
+        let clickFlag = null;
+        function click(){
+            if(clickFlag){
+                clearTimeout(clickFlag);
+            }
+            clickFlag = setTimeout(function() {
+                // click 事件的处理
+                console.log(1);
+            }, 300);
+        }
+        function doclck(){
+            if(clickFlag){
+                clearTimeout(clickFlag);
+                console.log(2);
+            }
+        }
+        box.onclick = click;
+        box.ondblclick = doclck;
+    </script>
+</body>
+
+</html>
