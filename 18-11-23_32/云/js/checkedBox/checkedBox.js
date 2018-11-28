@@ -45,6 +45,15 @@ function checkedBox(){
 checkedAll.addEventListener('click',cheCli);
 let cheOnOff = false;
 function cheCli(){
-    checkedAll.className = 'checked';
+    cheOnOff = !cheOnOff;
+    if(cheOnOff){
+        checkedAll.className = 'checked';
+        const fileItem = document.getElementsByClassName('file-item');
+        let fileArr = Array.from(fileItem);
+        console.log(fileArr);
+        
+    }else{
+        checkedAll.className = '';
+    }
+    render();
 }
-cheOnOff = !cheOnOff;

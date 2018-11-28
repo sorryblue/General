@@ -35,21 +35,5 @@ function checked(id){
             checkI.className = '';
         }
     }
-
-    // checkI.onclick = function(){
-    //     onOff = !onOff;
-    //     if(onOff){
-    //             checkArr.forEach(e=>{
-    //                 e.checked = true;
-    //             });
-    //             checkI.className = 'checked';
-    //     }else{
-    //             checkArr.forEach(e=>{
-    //                 e.checked = false;
-    //             });
-    //             checkI.className = '';
-    //     }
-    //     render(id);
-    // }
 }
 checked(0);
