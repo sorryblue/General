@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box"></div>
+    <ul>
+        <li class="li"></li>
+        <li class="li1"></li>
+        <li class="li"></li>
+        <li class="li"></li>
+        <li class="xx-li1"></li>
+        <li class="li"></li>
+        <li class="xx-li1"></li>
+    </ul>
+<script>
+    /*
+    选择器:
+        #box
+        .li
+        ul
+    属性选择器:
+        $(li[class$='li1'])
+        $('ele[属性名key='属性值val']')
+    伪类选择器:
+        :first
+        :even偶数
+        :odd奇数
+        :lt(num)小于某个索引
+        :gt(num)大于某个索引
+        :checked匹配被选中的
+        方法:
+        val => value
+        html => innerHTML
+        text => innerText
+
+
+    li:even 偶数从0开始
+    li:odd 奇数
+*/
+$('#box').css('border','1px solid #000');
+$('.li').css('background','red');
+$('li:first').val('设置');
+$(li[class$='li1']).css('background','red');
+</script>
+</body>
+</html>
