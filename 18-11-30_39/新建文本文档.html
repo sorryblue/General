@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    let arr = ['123-副本','123-副本-副本','123-副本-副本-副本','我的文档','我的音乐'];
+    let re = /^123(-副本)*$/g;
+    for(let i = 0;i < arr.length;i++){
+        if(re.test(arr[i])){
+            console.log(arr[i]);
+        }
+    }
+    // arr.forEach(e=>{
+        
+    // });
+</script>
+</body>
+</html>

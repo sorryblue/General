@@ -9,46 +9,31 @@ remove.onclick = function(){
         content.appendChild(renderTree2(-1,-1));
     }
 }
-
 ok.onclick = function(){
-    log(kid,seleEleArr)
-
-    /* 
-        [{id:321321,pid:0}]
-
-        {id:321321,pid:321321}
-
-    */
     if(seleEleArr.length){
-        
-        /* 
-            把选中的文件夹和他们下面的子级或孙子级都提取出来
-            放到一个数组(children)中
-        */
         seleEleArr.forEach(e=>{
             children.push(e);
             getChildren(e.id);
         });
-        // console.log(children);
-        
-        /* 
-            如果提取出来的数组中的某个数据，包含kid，说明用户把
-            选中的文件夹放到了自己或者自己的肚子里去了
-
-            如果没有包含kid说明操作符合逻辑，就应该移动文件夹
-        */
         if(!children.some(e=>e.id == kid)){
             seleEleArr.forEach(e=>{
-                let arr = getChild(kid);
-                if(arr.some(el=>el.title === e.title)){
-                    e.title = e.title + '-副本';
+                let arr = getChild(e.id);
+                if(arr && arr.some(el=>el.title === e.title)){
+                    let a = arr.filter(f=>{
+                        let re = new RegExp('^' + e.title + '(-副本)*$');
+                        return re.test(f.title);
+                    }).sort((a,b)=>{
+                        return a.title.length - b.title.length;
+                    });
+                    if(a.length == 1){
+                        e.title = a[0].title + '-副本';
+                    }else{
+                        e.title = a[a.length-1].title + '-副本';
+                    }
                 }
                 e.pid = kid;
                 e.checked = false;
             });
-
-
-
             render(breadNav.getElementsByTagName('span')[0].dataset.id*1);
             treeMenu.appendChild(renderTree(-1,-1));
         }else{
@@ -61,15 +46,15 @@ ok.onclick = function(){
 function renderTree2(pid,num){
     content.innerHTML = '';
     let arr = getChild(pid);
-    let ul = document.createElement('ul');;
+    let ul = document.createElement('ul');
     num++;
-    ul.style.paddingLeft = num*5 + "px";
+    ul.style.paddingLeft = num*5 + 'px';
     arr && arr.forEach(e=>{
         let ary = getChild(e.id);
         let li = document.createElement('li');
         li.onclick = function(ev){
             let lis = content.getElementsByTagName('li');
-            for(let i=0;i<lis.length;i++){
+            for(let i = 0;i < lis.length;i++){
                 lis[i].children[0].style.background = '';
             }
             li.children[0].style.background = '#999';
@@ -90,5 +75,3 @@ function renderTree2(pid,num){
     });
     return ul;
 }
-
-

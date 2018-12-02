@@ -10,13 +10,9 @@ folders.addEventListener('mousedown',function(ev){
     let fileItem = folders.getElementsByClassName('file-item');
     let arr = getChild(id);
     for(let i = 0;i < fileItem.length;i++){
-        fileItem[i].classList.remove('active');
-        if(fileItem[i].children[3]){
-            fileItem[i].children[3].className = '';
-        }
-        checkall.className = '';
         if(arr && arr[i]){
             arr[i].checked = false;
+            render(id);
         }
     }
     seleEleArr.length = 0;
@@ -40,12 +36,10 @@ folders.addEventListener('mousedown',function(ev){
             }else{
                 fileItem[i].classList.remove('active');
                 fileItem[i].children[3].className = '';
-                if(data[fileItem[i].dataset.id*1]){
-                    data[fileItem[i].dataset.id*1].checked = false;
-                }
+                data[fileItem[i].dataset.id*1].checked = false;
             }
         }
-        checkall.className = (seleEleArr.length == fileItem.length)?'checked':'';
+        checkall.className = arr.every(e=>e.checked)?'checked':'';  
         kuang.style.left = Math.min(disX,ev.pageX - left) + 'px';
         kuang.style.top = Math.min(disY,ev.pageY - top) + 'px';
     }

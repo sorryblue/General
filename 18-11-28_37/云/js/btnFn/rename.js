@@ -1,5 +1,5 @@
 const rename = document.getElementById('rename');
-rename.onclick = function(){   
+rename.onclick = function(){
     if(!seleEleArr.length){
         alert('没有选');
     }else if(seleEleArr.length > 1){
@@ -8,17 +8,18 @@ rename.onclick = function(){
         let id = breadNav.getElementsByTagName('span')[0].dataset.id*1;
         let arr = getChild(id);
         rv = true;
-        //把选中的项过滤掉。
         arr = arr.filter(e=>e.title!=seleEleArr[0].title);
         let ele = folders.getElementsByClassName('file-item');
-        for(let i=0;i<ele.length;i++){
-            // console.log(ele[i].dataset.id)
+        for(let i = 0;i < ele.length;i++){
             if(ele[i].dataset.id == seleEleArr[0].id){
                 ele[i].children[1].style.display = 'none';
-                let txt = ele[i].children[2]
+                let txt = ele[i].children[2];
                 txt.style.display = 'block';
                 txt.select();
                 let v = txt.value;
+                txt.onmousedown = function(ev){
+                    ev.cancelBubble = true;
+                }
                 txt.onblur = function(){
                     if(!this.value.trim()){
                         log('不能为空');
@@ -36,6 +37,5 @@ rename.onclick = function(){
                 }
             }
         }
-
     }
 }

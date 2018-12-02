@@ -1,4 +1,4 @@
-function rednerMenu(id){
+function renderMenu(id){
     breadNav.innerHTML = '';
     let arr = getParents(id);
     let arr2 = getChild(id);
@@ -11,7 +11,7 @@ function rednerMenu(id){
                 a.onclick = function(){
                     arr2 && arr2.forEach(e=>e.checked = false);
                     render(e.id);
-                    rednerMenu(e.id);
+                    renderMenu(e.id);
                 }
                 breadNav.appendChild(a);
             }else{
@@ -24,4 +24,4 @@ function rednerMenu(id){
     }
 }
 
-rednerMenu(0);
+renderMenu(0);

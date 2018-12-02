@@ -22,7 +22,7 @@ function render(id){
     }else{
         checkall.className = arr.every(e=>e.checked)?'checked':'';
         fEmpty.style.display = 'none';
-        arr.forEach((e,k) => {
+        arr.forEach((e) => {
             if(e.checked){seleEleArr.push(e);}
             let div = document.createElement('div');
             div.className = e.checked?'file-item active':'file-item';
@@ -31,7 +31,7 @@ function render(id){
             img.src = 'img/folder-b.png';
             img.ondblclick = function(){
                 render(e.id);
-                rednerMenu(e.id);
+                renderMenu(e.id);
                 arr.forEach(e=>e.checked = false);
             }
             let span = document.createElement('span');
@@ -44,7 +44,7 @@ function render(id){
             let i = document.createElement('i');
             i.className = e.checked?'checked':'';
             i.onclick = function(){
-                data[e.id].checked = !data[e.id].checked;
+                e.checked = !e.checked;
                 render(id);
             }
             div.appendChild(img);
