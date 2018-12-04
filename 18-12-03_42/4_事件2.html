@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box"></div>
+    <script src="./js/jquery3.3.1.js"></script>
+    <script>
+        /*
+            on('不带on的事件名',fn) -> ('click',function(){})
+            on('不带on的事件名',target,fn) -> 时间委托
+            on('不带on的事件名',{key:val},fn)
+            jquery中的event对象是二次封装的对象,增加了很多东西
+            也是把常用的功能列了出来
+            ev.data 就是绑定的数据
+            如果在jq的event下没有找到原生的事件对象属性,那么还可以去
+            ev.originalEvent(就是原生的事件对象)下查找
+        */
+        let arr = ['111','222','333'];
+        arr.forEach(e=>{
+            let $btn = $('<button>按钮</button>');
+            $btn.on('click',{e},function(ev){
+                console.log(ev);
+                console.log(ev.data.e);
+            });
+            $('#box').append($btn);
+        })
+    </script>
+</body>
+</html>

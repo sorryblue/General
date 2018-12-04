@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    #box{
+        width: 100px;
+        height: 100px;
+        background: #000;
+    }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script src="./js/jquery3.3.1.js"></script>
+    <script>
+        /*
+            hover是onmouseleave和onmouseenter
+        */
+        $('#box').hover(function(){
+            $(this).css('background','red');
+        },function(){
+            $(this).css('background','#000');
+        });
+    </script>
+</body>
+</html>

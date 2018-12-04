@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">点击</button>
+    <ul id="ul"></ul>
+    <script src="./js/jquery3.3.1.js"></script>
+    <script>
+        /*
+            增`删`改`查`克隆
+            增:
+                创建
+                    $(元素)
+                插入
+                    append
+                    before
+            改: 替换
+            查:上一个 下一个 子级的 父级的 第一个 最后一个
+        */
+        let num = 0;
+        $('#btn').click(function(){
+            num ++;
+            let $li = $('<li><span>' + num + '</span> <input n = '+ num +' style = "display:none" value="'+ num +'" type="text"><a rm href="javascript:;">删除</a><a rn href = "javascript:;">修改</a></li>');
+            $li.on('click','a[rm]',function(){
+                $li.remove();
+            });
+            let $txt = $li.find('input');//find类似于getElementsByTagName
+            let $span = $li.find('span');
+            $li.on('click','a[rn]',function(){
+                $txt.show();
+                $span.hide();
+                $txt.focus();
+                $txt[0].selectionStart = $txt.val().length;
+            });
+            $txt.blur(function(){
+                if(!$(this).val()){
+                    $(this).val($(this).attr('n'));
+                }else{
+                    $span.html($(this).val());
+                    $(this).attr('n',$(this).val());
+                }
+                $span.show();
+                $(this).hide();
+            });
+            $('#ul').append($li);
+            // if($('li:first').length){
+            //     $('li:first').before($li);
+            // }else{
+            //     $('#ul').append($li);
+            // }
+        }); 
+    </script>
+</body>
+</html>
