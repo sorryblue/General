@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>天气</title>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #box{
+        background: darkcyan;
+        height: 627px;
+        padding: 20px 20px;
+    }
+    #inputBox{
+        float: right;
+    }
+    #name{
+        font-family: "Microsoft Yahei";
+        border: none;
+        background: rgba(255,255,255,.2);
+        border-radius: 49px;
+        padding: 8px 13px;
+        width: 251px;
+        height: 20px;
+        color: rgba(255,255,255,.7);
+        line-height: 20px;
+        font-size: 14px;
+    }
+    #btn{
+        width: 50px;
+        height: 20px;
+        border: 1px solid red;
+    }
+    #dayWea{
+        margin-top: 100px;
+        margin-left: 100px;
+    }
+    .dayWea li{
+        float: left;
+        margin: 20px;
+        margin-left: 40px;
+        font-size: 30px;
+        color: white;
+    }
+    #dayWea #icon img{
+        margin-left: 600px;
+        margin-top: -20px;
+    }
+    li{
+        list-style: none;
+    }
+    #ul{
+        height: 100px;
+    }
+    #ul ul li{
+        float: left;
+        margin: 20px;
+        margin-left: 60px;
+        font-size: 20px;
+        color: white;
+    }
+    #fuWea li{
+        float: left;
+        margin-left: 40px;
+        font-size: 20px;
+        color: white;
+    }
+    #fuWea li .temt{
+        margin-bottom: 30px;
+        margin-left: 18px;
+    }
+</style>
+<script type="text/javascript" src="https://www.nowapi.com/style/jquery/1.11.3/jquery.min.js"></script>
+<body>
+    <div id="box">
+        <img src="//mat1.gtimg.com/pingjs/ext2020/weather/2017/images/logo-c3cae1c3ef.png" alt="">
+        <div id="inputBox">
+            <input type="text" id="name"/>
+        </div>
+        <div id="dayWea">
+            <ul class="dayWea">
+                <!-- <li>0℃/-8℃</li>
+                <li>星期一</li> -->
+            </ul>
+            <div id="icon">
+                <img src="https://mat1.gtimg.com/pingjs/ext2020/weather/pc/icon/currentweather/night/01.png" alt="">
+            </div>
+        </div>
+        <div id="ul">
+            <!-- <ul >
+                <li>西南风 1级</li>
+                <li>湿度 28%</li>
+                <li>2018-12-10</li>
+            </ul> -->
+        </div>
+        <div>
+            <ul id="fuWea">
+                <li>
+                    <p class="temt">0℃/-8℃</p>
+                    <p>2018-12-10</p>
+                </li>
+                <li>
+                    <p class="temt">0℃/-8℃</p>
+                    <p>2018-12-10</p>
+                </li>
+                <li>
+                    <p class="temt">0℃/-8℃</p>
+                    <p>2018-12-10</p>
+                </li>
+                <li>
+                    <p class="temt">0℃/-8℃</p>
+                    <p>2018-12-10</p>
+                </li>
+                <li>
+                    <p class="temt">0℃/-8℃</p>
+                    <p>2018-12-10</p>
+                </li>
+                <li>
+                    <p class="temt">0℃/-8℃</p>
+                    <p>2018-12-10</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        $(document).keydown(function(ev){
+            if(ev.keyCode === 13){
+                $.ajax({
+                    type: 'get',
+                    async : false,
+                    url : 'http://api.k780.com/?app=weather.future&' + `weaid=${$('#name').val()}` + '&appkey=33546&sign=19c642ab2d062747b9d7363ba57cc295&format=json&jsoncallback=data',
+                    dataType : 'jsonp',
+                    jsonp : 'callback',
+                    jsonpCallback : 'data',
+                    success : function(data){
+                        if(data.success!='1'){
+                            alert(data.msgid+' '+data.msg);
+                            alert('请输入地址');
+                            exit;
+                        }
+                        
+                        let description = "";
+                        let property = '';
+                        let temp = '';
+                        let d = new Date();
+                        let day = d.getDate();
+                        let month = d.getMonth() + 1;
+                        let year = d.getFullYear();
+                        data.result.forEach(e=>{
+                            property = e;
+                            if(e.days === `${year + '-' + month + '-' + day}`){
+                                $('#dayWea').innerHTML = ``
+                            }
+                            temp += `<li class="li">${property.citynm + " : " + property.temperature + property.days}</li>` 
+                        });
+                        console.log(property);
+                        $('#ul').append(temp);
+                    },
+                    error:function(){
+                        alert('fail');
+                    }
+                });
+            }
+        });
+        /*
+        {
+            cityid: "101010100"
+            citynm: "北京"
+            cityno: "beijing"
+            days: "2018-12-10"
+            humi_high: "0"
+            humi_low: "0"
+            humidity: "0%/0%"
+            temp_high: "0"
+            temp_low: "-8"
+            temperature: "0℃/-8℃"
+            weaid: "1"
+            weather: "多云"
+            weather_icon: "http://api.k780.com/upload/weather/d/1.gif"
+            weather_icon1: "http://api.k780.com/upload/weather/n/1.gif"
+            weather_iconid: "1"
+            weather_iconid1: "1"
+            weatid: "2"
+            weatid1: "2"
+            week: "星期一"
+            wind: "南风转东南风"
+            windid: "19"
+            winp: "<3级"
+            winpid: "395"
+        }
+        */
+    </script>
+</body>
+</head>
+<body>
+</body>
+</html>
