@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #musicB{
+            position: relative;
+        }
+        #musicO{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #EF5124;
+            position: absolute;
+            left: 500px;
+            top: 80px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 80px;
+        }
+        #musicT{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #7DB814;
+            position: absolute;
+            left: 600px;
+            top: 130px; 
+            cursor: pointer;
+            text-align: center;
+            line-height: 100px;
+        }
+        #musicS{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #0DA5EE;
+            position: absolute;
+            left: 700px;
+            top: 100px; 
+            cursor: pointer;
+            text-align: center;
+            line-height: 100px;
+        }
+        #musicF{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #FEB814;
+            position: absolute;
+            left: 800px;
+            top: 50px; 
+            cursor: pointer;
+            text-align: center;
+            line-height: 80px;
+        }
+        #schedule{
+            width: 1300px;
+            height: 10px;
+            background: gray;
+            position: fixed;
+            left: 30px;
+            top: 657px;
+            border-radius: 50px;
+        }
+        #schedule #point{
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: black;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="musciB">
+        <div id="musicO">河山大好</div>
+        <div id="musicT">双人旁</div>
+        <div id="musicS">想象之中</div>
+        <div id="musicF">医生</div>
+    </div>
+    <div id="musicBox"></div>
+    <div id="schedule">
+        <div id="point"></div>
+    </div>
+    <script src="./jquery3.3.1.js"></script>
+    <script>
+        let audio = document.createElement('audio');
+        audio.id = 'audio';
+        $('#musicBox').append(audio);
+        let percentage = parseFloat(window.getComputedStyle(point).width)/(parseFloat(window.getComputedStyle(schedule).width) - parseFloat(window.getComputedStyle(point).width));
+        let timer = null;
+        let num = 0;
+        $('#musicO').click(function(){
+            $('#musicBox').innerHTML = '';
+            audio.src = './0.2河山大好.flac';
+            if(audio.className === 'playO'){
+                clearInterval(timer);
+                $('#schedule').css('background','gray');
+                audio.className = 'pauseO';
+                audio.pause();
+            }else{
+                $('#schedule').css('background','#EF5124');
+                timer = setInterval(function(){
+                    num++;
+                    $('#point').css('left',percentage * parseFloat(window.getComputedStyle(schedule).width) *num + 'px');
+                    if(parseFloat(point.offsetLeft) >= (parseFloat(window.getComputedStyle(schedule).width) - parseFloat(window.getComputedStyle(point).width))){
+                        clearInterval(timer);
+                        point.offsetLeft = parseFloat(window.getComputedStyle(schedule).width) - parseFloat(window.getComputedStyle(point).width) + 'px';
+                        audio.pause();
+                        $('#schedule').css('background','gray');
+                    }
+                    console.log(audio.currentTime);
+                    // console.log(audio.duration);
+                },1000);
+                audio.className = 'playO';
+                audio.play();
+            }
+        });
+        $('#musicT').click(function(){
+            $('#musicBox').innerHTML = '';
+            audio.src = './0.7双人旁.flac';
+            if(audio.className === 'playT'){
+                clearInterval(timer);
+                $('#schedule').css('background','gray');
+                audio.className = 'pauseT';
+                audio.pause();
+            }else{
+                $('#schedule').css('background','#7DB814');
+                timer = setInterval(function(){
+                    num++;
+                    $('#point').css('left',percentage * parseFloat(window.getComputedStyle(schedule).width) *num + 'px');
+                    if(parseFloat(point.offsetLeft) >= (parseFloat(window.getComputedStyle(schedule).width) - parseFloat(window.getComputedStyle(point).width))){
+                        clearInterval(timer);
+                        point.offsetLeft = parseFloat(window.getComputedStyle(schedule).width) - parseFloat(window.getComputedStyle(point).width) + 'px';
+                        audio.pause();
+                        $('#schedule').css('background','gray');
+                    }
+                },1000);
+                audio.className = 'playT';
+                audio.play();
+            }
+        });
+        $('#musicS').click(function(){
+            $('#musicBox').innerHTML = '';
+            audio.src = './01.想象之中.flac';
+            if(audio.className === 'playS'){
+                clearInterval(timer);
+                $('#schedule').css('background','gray');
+                audio.className = 'pauseS';
+                audio.pause();
+            }else{
+                $('#schedule').css('background','#0DA5EE');
+                timer = setInterval(function(){
+                    num++;
+                    $('#point').css('left',percentage * parseFloat(window.getComputedStyle(schedule).width) *num + 'px');
+                    if(parseFloat(point.offsetLeft) >= (parseFloat(window.getComputedStyle(schedule).width) - parseFloat(window.getComputedStyle(point).width))){
+                        clearInterval(timer);
+                        point.offsetLeft = parseFloat(window.getComputedStyle(schedule).width) - parseFloat(window.getComputedStyle(point).width) + 'px';
+                        audio.pause();
+                        $('#schedule').css('background','gray');
+                    }
+                },1000);
+                audio.className = 'playS';
+                audio.play();
+            }
+        });
+        $('#musicF').click(function(){
+            $('#musicBox').innerHTML = '';
+            audio.src = './04.医生 .flac';
+            if(audio.className === 'playF'){
+                clearInterval(timer);
+                $('#schedule').css('background','gray');
+                audio.className = 'pauseF';
+                audio.pause();
+            }else{
+                $('#schedule').css('background','#FEB814');
+                timer = setInterval(function(){
+                    num++;
+                    $('#point').css('left',percentage * parseFloat(window.getComputedStyle(schedule).width) *num + 'px');
+                    if(parseFloat(point.offsetLeft) >= (parseFloat(window.getComputedStyle(schedule).width) - parseFloat(window.getComputedStyle(point).width))){
+                        clearInterval(timer);
+                        point.offsetLeft = parseFloat(window.getComputedStyle(schedule).width) - parseFloat(window.getComputedStyle(point).width) + 'px';
+                        audio.pause();
+                        $('#schedule').css('background','gray');
+                    }
+                },1000);
+                audio.className = 'playF';
+                audio.play();
+            }
+        });
+    </script>
+</body>
+</html>
