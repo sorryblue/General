@@ -2,8 +2,21 @@ const remove = document.getElementById('remove');
 const ok = modelTree.getElementsByClassName('ok')[0];
 let kid = 0;
 remove.onclick = function(){
+    let timer = null;
     if(!seleEleArr.length){
-        console.log('请选择想移动的文件');
+        let tanbox = document.getElementById('tanboxTi');
+        tanbox.innerHTML = '请选择想移动的文件';
+        tanbox.style.opacity = 1;
+        tanbox.style.top = '50px';
+        let onOff = true;
+        if(onOff){
+            onOff = false;
+            timer = setTimeout(function(){
+                onOff = true;
+                tanbox.style.opacity = 0;
+                tanbox.style.top = '-100px';
+            },600);
+        }
     }else{
         modelTree.style.display = 'block';
         content.appendChild(renderTree2(-1,-1));
@@ -37,7 +50,19 @@ ok.onclick = function(){
             render(breadNav.getElementsByTagName('span')[0].dataset.id*1);
             treeMenu.appendChild(renderTree(-1,-1));
         }else{
-            console.log('凯文,别瞎搞!');
+            let tanbox = document.getElementById('tanboxTi');
+            tanbox.innerHTML = '凯文,别瞎搞!';
+            tanbox.style.opacity = 1;
+            tanbox.style.top = '50px';
+            let onOff = true;
+            if(onOff){
+                onOff = false;
+                timer = setTimeout(function(){
+                    onOff = true;
+                    tanbox.style.opacity = 0;
+                    tanbox.style.top = '-100px';
+                },600);
+            }
         }
         children.length = 0;
         modelTree.style.display = 'none';

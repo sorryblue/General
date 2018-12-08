@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>弹性运动</title>
+		<style type="text/css">
+			#div {
+				width: 100px;
+				height: 100px;
+				background: green;
+				position: absolute;
+				border-radius: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//window.onload表示等页面标签内容加载完之后再加载window.onload里面的内容
+			window.onload = function(){
+				//分别设置div在x和y方向的的初速度
+				var speedX = 30;
+				var speedY = 50;
+				//获取div标签
+				var div = document.getElementById("div");
+				//获取按钮
+				var btn = document.getElementById("btn");
+				//定义点击事件
+				btn.onclick = function(){
+					startMove();
+				};
+				//定义一个空的定时器，防止上次事件定时器的返回值叠加
+				var timer = null;
+				//定义点击事件函数
+				function startMove(){
+					//内部清空计时器，防止上次返回值叠加
+					clearInterval(timer);
+					//设置计时器
+					timer = setInterval(function(){
+						//竖直方向上反向运动时速度为负值，为了达到反弹逐渐速度逐渐减小的效果，可以在向下碰撞后速度加上一个正值
+						speedY += 6;
+						//分别获取div距离左边距和上边距的动态距离
+						var iW = div.offsetLeft + speedX;
+						var iH = div.offsetTop + speedY;
+						//获取div水平方向运动的最大距离，即不包含边框的浏览器窗口的宽度clientWidth减去div的宽度
+						var w = document.documentElement.clientWidth - div.offsetWidth;
+						//获取div垂直方向运动的最大距离
+						var h = document.documentElement.clientHeight - div.offsetHeight;
+						//当动态宽度达到div最大运动宽度范围时，立刻转换速度为反方向负值，同时把w的值负值给iw，因为w是可视窗口范围，当w缩小时，iw保存的还是上一次窗口条件下的距离左边距的距离
+                        if(iW <= 0){
+                            speedX = -speedX;
+                            iW = 0;
+                        }
+                        if(iW >= w){
+                            speedX = -speedX;
+                            iW = w;
+                        }
+						//当动态高度达到div最大运动高度范围时，立刻转向速度，同时将x方向速度乘以0.8，使之速度逐渐减小
+                        if(iH <= 0){
+                            speedY = -speedY;
+                            iH = 0;
+                            speedY *= 0.95;
+                            speedX *= 0.95;
+                        }
+                        if(iH >= h){
+                            speedY = -speedY;
+                            iH = h;
+                            speedY *= 0.95;
+                            speedX *= 0.95;
+                        }
+ 						//由于div.style.left和div.style.top还储存这上一次或第一次的计时后的值，此次计时后应把新的值储存起来，使div出现动态效果
+						div.style.left = iW + "px";
+						div.style.top = iH + "px";
+					},30);
+				}
+			}
+		</script>
+		<input type="button" name="btn" id="btn" value="开始运动" />
+		<div id="div"></div>
+	</body>
+</html>
