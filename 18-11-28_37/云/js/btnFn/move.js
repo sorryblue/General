@@ -1,5 +1,7 @@
 const remove = document.getElementById('remove');
 const ok = modelTree.getElementsByClassName('ok')[0];
+const off = modelTree.getElementsByClassName('cancel')[0];
+const cancel = modelTree.getElementsByClassName('icon_close')[0];
 let kid = 0;
 remove.onclick = function(){
     let timer = null;
@@ -67,6 +69,12 @@ ok.onclick = function(){
         children.length = 0;
         modelTree.style.display = 'none';
     }
+}
+off.onclick = function(){
+    modelTree.style.display = 'none';
+}
+cancel.onclick = function(){
+    modelTree.style.display = 'none';
 }
 function renderTree2(pid,num){
     content.innerHTML = '';
