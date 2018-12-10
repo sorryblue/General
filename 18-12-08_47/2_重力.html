@@ -58,14 +58,14 @@
                         if(iH <= 0){
                             speedY = -speedY;
                             iH = 0;
-                            speedY *= 0.95;
-                            speedX *= 0.95;
+                            speedY *= 0.98;
+                            speedX *= 0.98;
                         }
                         if(iH >= h){
                             speedY = -speedY;
                             iH = h;
-                            speedY *= 0.95;
-                            speedX *= 0.95;
+                            speedY *= 0.98;
+                            speedX *= 0.98;
                         }
  						//由于div.style.left和div.style.top还储存这上一次或第一次的计时后的值，此次计时后应把新的值储存起来，使div出现动态效果
 						div.style.left = iW + "px";

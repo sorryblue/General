@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #content {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #f00;
+            position: relative;
+        }
+
+        #content p {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content"></div>
+</body>
+<script>
+    window.onload = function () {
+        var content = document.getElementById('content');
+        var maxMoveX = content.clientWidth - 20;
+        var maxMoveY = content.clientHeight - 20;
+        var timer = null;
+        var ballList = [];
+        //0. 公共方法(随机创建)
+        function random(type) {
+            switch (type) {
+                case 'color':
+                    return 'rgb(' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',' +
+                        Math.floor(Math.random() * 255) + ')';
+                case 'top':
+                    return Math.floor(Math.random() * 280) + 'px';
+                case 'left':
+                    return Math.floor(Math.random() * 280) + 'px';
+                case 'speed':
+                    return Math.floor((Math.random() - 0.5) * 20);
+                default:
+                    return false;
+            }
+        }
+        //1. 创建小球
+        function createBall(num) {
+            var p = null;
+            for (var i = 0; i < num; i++) {
+                p = document.createElement('p');
+                p.innerHTML = i + 1;
+                p.style.background = random('color');
+                p.style.color = '#fff';
+                p.style.top = random('top');
+                p.style.left = random('left');
+                p.style['textAlign'] = 'center';
+                p.id = 'ball' + i;
+                content.appendChild(p);
+                ballList.push(p);
+                moveBall(p);
+            }
+        }
+        //2. 移动小球
+        function moveBall(ball, startSX, startSY) {
+            var speedX = random('speed'),
+                speedY = random('speed'),
+                ballMoveX = null,
+                speedObj = {},
+                ballMoveY = null;
+            timer = setInterval(function () {
+                ballMoveY = ball.offsetTop + speedY;
+                ballMoveX = ball.offsetLeft + speedX;
+                if (ballMoveX >= maxMoveX || ballMoveX <= 0) {
+                    speedX = -speedX;
+                }
+                if (ballMoveY >= maxMoveY || ballMoveY <= 0) {
+                    speedY = -speedY;
+                }
+                ball.style.top = ballMoveY + 'px';
+                ball.style.left = ballMoveX + 'px';
+
+                speedObj = crashBall(ball, speedX, speedY);
+                speedX = speedObj.speedX;
+                speedY = speedObj.speedY;
+            }, 30)
+        }
+        //3. 处理小球间的碰撞
+        function crashBall(ball, speedX, speedY) {
+            var speedObj = {};
+            for (var i = 0; i < ballList.length; i++) {
+                //自己不跟自己比较
+                if (ball.id !== ballList[i].id && Math.abs(ball.offsetLeft - ballList[i].offsetLeft) <= 20 && Math.abs(
+                        ball.offsetTop - ballList[i].offsetTop) <= 20) {
+                    //**********对象小球在碰撞小球方位的8个情况***********
+                    //左上方
+                    if (ball.offsetLeft < ballList[i].offsetLeft && ball.offsetTop < ballList[i].offsetTop) {
+                        speedX > 0 && (speedX = -speedX);
+                        speedY > 0 && (speedY = -speedY);
+                    }
+                    //正上方（不会影响水平运动的速度）
+                    if (ball.offsetLeft === ballList[i].offsetLeft && ball.offsetTop < ballList[i].offsetTop) {
+                        speedY > 0 && (speedY = -speedY);
+                    }
+                    //右上方
+                    if (ball.offsetLeft > ballList[i].offsetLeft && ball.offsetTop < ballList[i].offsetTop) {
+                        speedX < 0 && (speedX = -speedX);
+                        speedY > 0 && (speedY = -speedY);
+                    }
+                    //正右方
+                    if (ball.offsetLeft > ballList[i].offsetLeft && ball.offsetTop === ballList[i].offsetTop) {
+                        speedX < 0 && (speedX = -speedX);
+                    }
+                    //右下方
+                    if (ball.offsetLeft > ballList[i].offsetLeft && ball.offsetTop > ballList[i].offsetTop) {
+                        speedX < 0 && (speedX = -speedX);
+                        speedY < 0 && (speedY = -speedY);
+                    }
+                    //正下方
+                    if (ball.offsetLeft === ballList[i].offsetLeft && ball.offsetTop > ballList[i].offsetTop) {
+                        speedY < 0 && (speedY = -speedY);
+                    }
+                    //左下方
+                    if (ball.offsetLeft < ballList[i].offsetLeft && ball.offsetTop > ballList[i].offsetTop) {
+                        speedX > 0 && (speedX = -speedX);
+                        speedY < 0 && (speedY = -speedY);
+                    }
+                    //正左方
+                    if (ball.offsetLeft < ballList[i].offsetLeft && ball.offsetTop === ballList[i].offsetTop) {
+                        speedX > 0 && (speedX = -speedX);
+                    }
+                }
+            }
+            speedObj.speedX = speedX;
+            speedObj.speedY = speedY;
+            return speedObj;
+        }
+        createBall(3);
+    }
+</script>
+
+</html>
