@@ -1,0 +1,316 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>index</title>
+    <link href="/public/css/weibo.css" rel="stylesheet" type="text/css"/>
+    <style>
+        #tanbox{
+            width: 200px;
+            height: 100px;
+            background: skyblue;
+            position: absolute;
+            top: -110px;
+            left: 565px;
+        }
+        #prompt{
+            position: absolute;
+            left: 39px;
+            top: 34px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="nArea">
+
+    <div id="tanbox">
+        <p id="prompt">数据获取失败</p>
+    </div>
+    <!--留言-->
+    <div class="takeComment">
+        <textarea name="textarea" class="takeTextField" id="text"></textarea>
+        <div class="takeSbmComment">
+            <input type="button" id="submit" class="inputs" value=""/>
+            <span>(可按 Enter 回复)</span>
+        </div>
+    </div>
+    <!--已留-->
+    <div class="commentOn">
+        <div class="messList" id="div1" style="height:502px">
+
+
+            <!-- <div class="reply">
+                <p class="replyContent">卫士，新款卫士将推出总共14种车身式样。其中， XS旅行款车型售价为32295英镑(约33.6万元)。</p>
+                <p class="operation">
+                    <span class="replyTime">2018-09-08 16:37:60</span>
+                    <span class="handle">
+                        <a href="javascript:;" class="top">0</a>
+                        <a href="javascript:;" class="down_icon">0</a>
+                        <a href="javascript:;" class="cut">删除</a>
+                    </span>
+                </p>
+            </div> -->
+
+
+        </div>
+        <div class="page" id="page">
+
+            
+            <!-- <a href="#" class="active">1</a>
+            <a href="#" >2</a> -->
+
+
+        </div>
+    </div>
+</div>
+<script src="./backup/ajax.js"></script>
+<script>
+    const text = document.getElementById('text');
+    const submit = document.getElementById('submit');
+    const messList = document.getElementsByClassName('messList')[0];
+    const div1 = document.getElementById('div1');
+    const tanbox = document.getElementById('tanbox');
+    const page = document.getElementById('page');
+
+
+
+
+    function getTime(time){
+        let t = new Date(time);
+            y = t.getFullYear() + '-',
+            mon = (t.getMonth()+1 < 10 ? '0'+(t.getMonth()+1) : t.getMonth()+1) + '-',
+            d = (t.getDate() < 10 ? '0'+ t.getDate():t.getDate()) + ' ',
+            h = (t.getHours() < 10 ? '0'+ t.getHours():t.getHours()) + ':',
+            min = (t.getMinutes() < 10 ? '0'+ t.getMinutes():t.getMinutes()) + ':',
+            s = (t.getSeconds() < 10 ? '0'+ t.getSeconds():t.getSeconds());
+        let timme = y+mon+d+h+min+s;
+        return timme
+    }
+
+    function renderPage(){
+        ajax({
+            url: '/api/weibo',
+            data:{
+                act: 'get_page_count'
+            },
+            success(data){
+                if(data.code === 0){
+                    for(let i = 1;i < data.count + 1;i++){
+                        let a = document.createElement('a');
+                        a.href = '#' + i;
+                        a.innerHTML = i;
+                        page.appendChild(a);
+                        a.addEventListener('click',function(ev){
+                            let allA = page.getElementsByTagName('a');
+                            for(let i = 0;i < allA.length;i++){
+                                allA[i].className = '';
+                            }
+                            div1.innerHTML = '';
+                            a.className = 'active';
+                            ajax({
+                                url:'/api/weibo',
+                                data:{
+                                    act: 'get',
+                                    page: a.innerHTML*1
+                                },
+                                success(data){
+                                    render(data);
+                                    window.onload();
+                                }
+                            });
+                        });
+                    }
+                    let aA = page.getElementsByTagName('a');
+                    if(aA[0]){
+                        aA[0].className = 'active';
+                    }
+                }
+            }
+        });
+    }
+
+    function render(data){
+        if(!(data.code === 1)){
+            data.forEach(e =>{
+                let timme = getTime(e.time);
+
+                let div = document.createElement('div');
+                div.className = 'reply';
+                div.dataset.tid = e.id;
+
+                let replyP = document.createElement('p');
+                replyP.className = 'replyContent';
+                replyP.innerHTML = e.content;
+
+                let operation = document.createElement('p');
+                operation.className = operation;
+
+                let replySpan = document.createElement('span');
+                replySpan.className = 'replyTime';
+                replySpan.innerHTML = timme;
+
+                let handleSpan = document.createElement('span');
+                handleSpan.className = 'handle';
+
+                let topA = document.createElement('a');
+                topA.href = 'javascript:;';
+                topA.className = 'top';
+                topA.innerHTML = e.like;
+                
+                
+                let downA = document.createElement('a');
+                downA.href = 'javascript:;';
+                downA.className = 'down_icon';
+                downA.innerHTML = e.dislike;
+                
+
+                let cutA = document.createElement('a');
+                cutA.href = 'javascript:;';
+                cutA.className = 'cut';
+                cutA.innerHTML = '删除';
+                
+
+                handleSpan.appendChild(topA);
+                handleSpan.appendChild(downA);
+                handleSpan.appendChild(cutA);
+
+                operation.appendChild(replySpan);
+                operation.appendChild(handleSpan);
+
+                div.appendChild(replyP);
+                div.appendChild(operation);
+
+
+                div1.appendChild(div);
+            });
+        }else{
+            tanbox.style.top = '152px';
+        }
+    }
+    
+     //加载完成后渲染页面
+    document.addEventListener('DOMContentLoaded',function(){
+         //渲染第一页
+         ajax({
+            url:'/api/weibo',
+            data:{
+                act: 'get',
+                page: 1
+            },
+            success(data){
+                render(data);
+            }
+        });
+        //渲染页码
+        renderPage();
+    });
+
+   
+    
+    window.onload = function(){
+        
+
+        function clicked(ev,event,pageA){
+
+            let elesT = ev;
+            let result = [];
+            while (elesT.id != 'div1') {
+                result.push(elesT);
+                elesT = elesT.parentNode;
+            }
+            let div = result[result.length - 1];
+            ajax({
+                url:'/api/weibo',
+                data:{
+                    act: event,
+                    id: div.dataset.tid
+                },
+                success(data){
+                    if(data.code === 0){
+                        ajax({
+                            url: '/api/weibo',
+                            data: {
+                                act: 'get',
+                                page: pageA.innerHTML*1
+                            },
+                            success(data){
+                                div1.innerHTML = '';
+                                page.innerHTML = '';
+                                render(data);
+                                renderPage();
+                                binding();
+                            }
+                        });
+                    }
+                }
+            });
+
+        }
+        
+
+        let topD = document.getElementsByClassName('top');
+        let downD = document.getElementsByClassName('down_icon');
+        let cutD = document.getElementsByClassName('cut');
+        let pageA = page.getElementsByClassName('active')[0];
+
+        
+
+        
+        let divs = document.getElementsByClassName('reply');
+      
+        window.binding = function(){
+            for(let i = 0;i < divs.length;i++){
+                divs[i].onclick = function(ev){
+                    if(ev.target.className === 'top'){
+                        clicked(ev.target,'like',pageA);
+                    }
+                    if(ev.target.className === 'cut'){
+                        clicked(ev.target,'del',pageA);
+                    }
+                    if(ev.target.className === 'down_icon'){
+                        clicked(ev.target,'dislike',pageA);
+                        // render(data);
+                        // renderPage();
+                    }
+                }
+            }
+        }
+        binding();
+        
+
+    }
+
+    submit.addEventListener('click',function(){
+        let txt = text.value;
+        text.value = '';
+        ajax({
+            url:'/api/weibo',
+            data:{
+                act: 'add',
+                content: txt
+            },
+            success(data){
+                if(data.code === 0){
+                    div1.innerHTML = '';
+                    page.innerHTML = '';
+                    ajax({
+                        url: '/api/weibo',
+                        data: {
+                            act: 'get',
+                            page: 1
+                        },
+                        success(data){
+                            render(data);
+                            renderPage();
+                            binding();
+                        }
+                    })
+                }
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

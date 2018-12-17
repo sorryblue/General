@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="author" content="Reddy.Huang"/>
+    <link rel="stylesheet" href="/public/css/reset.css">
+    <link rel="stylesheet" href="/public/css/register.css">
+    <title>Title</title>
+    <style>
+        h2 {
+            display: none;
+        }
+        #info{
+          display: none;
+        }
+        #tanbox{
+            width: 200px;
+            height: 100px;
+            background: skyblue;
+            border: 1px solid black;
+            position: absolute;
+            left: 203px;
+            top: -260px;
+            transition: .6s;
+            border-radius: 10px;
+        }
+        #genger{
+            position: absolute;
+            top: 35px;
+            left: 42px;
+            color: black;
+        }
+        #countdown{
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 24px;
+            left: 274px;
+            background: rgba(27, 153, 222,.0);
+        }
+        #number{
+            color: black;
+            font-size: 60px;
+        }
+    </style>
+</head>
+<body>
+<h2 id="userInfo">欢迎回来,<span id="user"></span></h2>
+<div class="form-wrapper">
+    <div class="banner"></div>
+    <form id="form">
+        <div class="item-wrapper"><label for="username">登陆名</label><input type="text" name="username" id="username" value=""></div>
+        <div class="item-wrapper"><label for="password">密码</label><input type="password" name="password" id="password" value=""></div>
+        <input type="button" value="登陆" id="submit">
+        <input type="button" value="注册" id="register">
+    </form>
+    <div id="tanbox">
+        <h3 id="genger"></h3>
+    </div>
+    <div id="countdown">
+        <p id="number"></p>
+    </div>
+</div>
+<script src="./ajax.js"></script>
+<script>
+    const register = document.getElementById('register');
+    const submit = document.getElementById('submit');
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+    const info = document.getElementById('info');
+    const tanbox = document.getElementById('tanbox');
+    const genger = document.getElementById('genger');
+    const countdown = document.getElementById('countdown');
+    const number = document.getElementById('number');
+    let timer = null;
+    function tan(){
+        tanbox.style.top = '-120px';
+        timer = setTimeout(function(){
+            tanbox.style.top = '-260px';
+        },1000);
+    }
+    register.addEventListener('click',function(){
+        if(!(username.value && password.value)){
+            clearTimeout(timer);
+            genger.innerHTML = '请输入相应的信息';
+            tan();
+        }else{
+            ajax({
+                url:'/api/user/register',
+                data:{
+                    username: username.value,
+                    password: password.value,
+                },
+                method:'post',
+                success(e){
+                    if(e.code){
+                        clearTimeout(timer);
+                        genger.innerHTML = '此用户名已被占用';
+                        tan();
+                    }else{
+                        clearTimeout(timer);
+                        password.value = '';
+                        genger.innerHTML = '注册成功';
+                    }
+                }
+            });
+        }
+    });
+    submit.addEventListener('click',function(){
+        ajax({
+            url:'/api/user/login',
+            data:{
+                username: username.value,
+		        password: password.value
+            },
+            method:'post',
+            success(data){
+                if(data.code === -3){
+                    genger.innerHTML = "输入的信息有错误";
+                    tan();
+                }
+                if(data.code === 0){
+                    genger.innerHTML = '信息正确登陆成功';
+                    tan();
+                    let num = 3;
+                    let timer = setInterval(function(){
+                        if(num < 0){
+                            num = 0;
+                            window.location.href = 'http://localhost:88';
+                        }
+                        number.innerHTML = num;
+                        num --;
+                    },1000);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

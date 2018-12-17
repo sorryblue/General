@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #cav{
+            width: 500px;
+            height: 400px;
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="txt">
+    <ul id="ul"></ul>
+
+    <canvas id="cav"></canvas>
+    <!-- <script>
+
+        // let obj = {name: 'xxx',age: 12};
+        // let m = Object.entries(obj);
+        // console.log(m);
+
+
+        let timer = null;
+        timer = setTimeout(function(){
+        console.log(a);
+
+        },1);
+
+        function fn(){
+            console.log(a);
+        }
+    </script> -->
+    <!-- <script>
+        let a = 10;
+
+        fn();
+    </script> -->
+    <script>
+        function jQuery110204244742530421106_1544602633692(data){
+            let temp = '';
+            data.s.forEach(e => {
+                temp += `<li>${e}</li>`
+            });
+            ul.innerHTML = temp;
+        }
+        txt.onkeyup = function(){
+            let sc = document.createElement('script');
+            sc.src = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd='+txt.value+'&json=1&p=3&sid=1454_21081_28019_26350_27750_27244_27542&req=2&csor=2&pwd=a&cb=jQuery110204244742530421106_1544602633692&_=1544602633698';
+            // sc.src = 'https://cn.bing.com/AS/Suggestions?pt=page.home&mkt=zh-cn&qry=a&cp=1&cvid=68122A40B31948DBBDC125775DBC7189'
+            document.getElementsByTagName('body')[0].appendChild(sc);
+            
+        }
+    </script>
+</body>
+</html>
