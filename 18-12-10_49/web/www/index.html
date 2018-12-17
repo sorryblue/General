@@ -39,7 +39,6 @@
     <div class="commentOn">
         <div class="messList" id="div1" style="height:502px">
 
-
             <!-- <div class="reply">
                 <p class="replyContent">卫士，新款卫士将推出总共14种车身式样。其中， XS旅行款车型售价为32295英镑(约33.6万元)。</p>
                 <p class="operation">
@@ -52,14 +51,11 @@
                 </p>
             </div> -->
 
-
         </div>
         <div class="page" id="page">
 
-            
             <!-- <a href="#" class="active">1</a>
             <a href="#" >2</a> -->
-
 
         </div>
     </div>
@@ -74,8 +70,6 @@
     const page = document.getElementById('page');
 
 
-
-
     function getTime(time){
         let t = new Date(time);
             y = t.getFullYear() + '-',
@@ -88,46 +82,132 @@
         return timme
     }
 
-    function renderPage(){
-        ajax({
-            url: '/api/weibo',
-            data:{
-                act: 'get_page_count'
-            },
-            success(data){
-                if(data.code === 0){
-                    for(let i = 1;i < data.count + 1;i++){
-                        let a = document.createElement('a');
-                        a.href = '#' + i;
-                        a.innerHTML = i;
-                        page.appendChild(a);
-                        a.addEventListener('click',function(ev){
-                            let allA = page.getElementsByTagName('a');
-                            for(let i = 0;i < allA.length;i++){
-                                allA[i].className = '';
-                            }
-                            div1.innerHTML = '';
-                            a.className = 'active';
-                            ajax({
-                                url:'/api/weibo',
-                                data:{
-                                    act: 'get',
-                                    page: a.innerHTML*1
-                                },
-                                success(data){
-                                    render(data);
-                                    window.onload();
+    function renderPage(num){
+            ajax({
+                url: '/api/weibo',
+                data:{
+                    act: 'get_page_count'
+                },
+                success(data){
+                    
+                    if(data.code === 0){
+                        let sam = data.count - 10;
+                        if(num > 6){
+                            if(num < data.count - 3){
+                                for(let i = num - 5;i < 10 + num - 5;i++){
+                                    let a = document.createElement('a');
+                                    a.href = '#' + i;
+                                    a.innerHTML = i;
+                                    page.appendChild(a);
+                                    let allA = page.getElementsByTagName('a');
+                                    for(let i = 0;i < allA.length;i++){
+                                        allA[i].className = '';
+                                    }
+
+
+                                    a.addEventListener('click',function(ev){
+                                        let hash = window.location.hash;
+                                        if(!hash){
+                                            window.location.hash = '1';
+                                        }
+                                        let num = a.innerHTML*1;
+                                        let allA = page.getElementsByTagName('a');
+
+                                        for(let i = 0;i < allA.length;i++){
+                                            allA[i].className = '';
+                                        }
+                                        // ev.target.className = 'active';
+                                        ajax({
+                                            url:'/api/weibo',
+                                            data:{
+                                                act: 'get',
+                                                page: a.innerHTML*1
+                                            },
+                                            success(data){
+                                                div1.innerHTML = '';
+                                                render(data);
+                                                window.onload();
+                                            }
+                                        });
+                                    });
                                 }
-                            });
-                        });
-                    }
-                    let aA = page.getElementsByTagName('a');
-                    if(aA[0]){
-                        aA[0].className = 'active';
+                                let aA = page.getElementsByTagName('a');
+
+                                aA[5].className = 'active';
+                            }else{
+                                for(let i = data.count - 9;i < data.count + 1;i++){
+                                    let a = document.createElement('a');
+                                    a.href = '#' + i;
+                                    a.innerHTML = i;
+                                    page.appendChild(a);
+                                    let allA = page.getElementsByTagName('a');
+                                    for(let i = 0;i < allA.length;i++){
+                                        allA[i].className = '';
+                                    }
+
+
+                                    a.addEventListener('click',function(ev){
+                                        let hash = window.location.hash;
+                                        if(!hash){
+                                            window.location.hash = '1';
+                                        }
+                                        let num = a.innerHTML*1;
+                                        let allA = page.getElementsByTagName('a');
+
+                                        for(let i = 0;i < allA.length;i++){
+                                            allA[i].className = '';
+                                        }
+                                        ajax({
+                                            url:'/api/weibo',
+                                            data:{
+                                                act: 'get',
+                                                page: a.innerHTML*1
+                                            },
+                                            success(data){
+                                                div1.innerHTML = '';
+                                                render(data);
+                                                window.onload();
+                                            }
+                                        });
+                                    });
+                                }
+                                let aA = page.getElementsByTagName('a');
+                                aA[num - 9].className = 'active';
+                            }
+                        }else{
+                            for(let i = 1;i < data.count + 1 - sam;i++){
+                                let a = document.createElement('a');
+                                a.href = '#' + i;
+                                a.innerHTML = i;
+                                page.appendChild(a);
+                                a.addEventListener('click',function(ev){
+                                    let allA = page.getElementsByTagName('a');
+                                    for(let i = 0;i < allA.length;i++){
+                                        allA[i].className = '';
+                                    }
+                                    ajax({
+                                        url:'/api/weibo',
+                                        data:{
+                                            act: 'get',
+                                            page: a.innerHTML*1
+                                        },
+                                        success(data){
+                                            div1.innerHTML = '';
+                                            render(data);
+                                            window.onload();
+                                        }
+                                    });
+                                });
+                            }
+                            let aA = page.getElementsByTagName('a');
+                            if(aA[0]){
+                                aA[num-1].className = 'active';
+                            }
+                        }
                     }
                 }
-            }
-        });
+            });
+        
     }
 
     function render(data){
@@ -191,26 +271,38 @@
     
      //加载完成后渲染页面
     document.addEventListener('DOMContentLoaded',function(){
+        let hash = window.location.hash;
+        let num;
+        if(!hash){
+            window.location.hash = '1';
+            num = 1;
+        }else{
+            num = hash.split('#')[1]*1;
+        }
          //渲染第一页
          ajax({
             url:'/api/weibo',
             data:{
                 act: 'get',
-                page: 1
+                page: num*1
             },
             success(data){
                 render(data);
             }
         });
         //渲染页码
-        renderPage();
+        renderPage(num);
     });
 
    
     
     window.onload = function(){
         
-
+        let hash = window.location.hash;
+        if(!hash){
+            window.location.hash = '1';
+        }
+        let num = hash.split('#')[1]*1;
         function clicked(ev,event,pageA){
 
             let elesT = ev;
@@ -232,13 +324,13 @@
                             url: '/api/weibo',
                             data: {
                                 act: 'get',
-                                page: pageA.innerHTML*1
+                                page: pageA*1
                             },
                             success(data){
                                 div1.innerHTML = '';
                                 page.innerHTML = '';
                                 render(data);
-                                renderPage();
+                                renderPage(num);
                                 binding();
                             }
                         });
@@ -253,9 +345,6 @@
         let downD = document.getElementsByClassName('down_icon');
         let cutD = document.getElementsByClassName('cut');
         let pageA = page.getElementsByClassName('active')[0];
-
-        
-
         
         let divs = document.getElementsByClassName('reply');
       
@@ -263,22 +352,38 @@
             for(let i = 0;i < divs.length;i++){
                 divs[i].onclick = function(ev){
                     if(ev.target.className === 'top'){
-                        clicked(ev.target,'like',pageA);
+                        clicked(ev.target,'like',num);
                     }
                     if(ev.target.className === 'cut'){
-                        clicked(ev.target,'del',pageA);
+                        clicked(ev.target,'del',num);
                     }
                     if(ev.target.className === 'down_icon'){
-                        clicked(ev.target,'dislike',pageA);
-                        // render(data);
-                        // renderPage();
+                        clicked(ev.target,'dislike',num);
                     }
                 }
             }
         }
         binding();
-        
 
+        window.onhashchange = function(){
+            hash = window.location.hash;
+            num = hash.split('#')[1]*1;
+            page.innerHTML = '';
+            renderPage(num);
+            ajax({
+                url:'/api/weibo',
+                data:{
+                    act: 'get',
+                    page: num*1
+                },
+                success(data){
+                    div1.innerHTML = '';
+                    render(data);
+                    binding();
+                }
+            });
+        }
+        
     }
 
     submit.addEventListener('click',function(){
@@ -302,7 +407,7 @@
                         },
                         success(data){
                             render(data);
-                            renderPage();
+                            renderPage(1);
                             binding();
                         }
                     })

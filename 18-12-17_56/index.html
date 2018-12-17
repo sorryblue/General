@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="div">index</div>
+    <input type="file" id="fil" >
+    <button id="btn">删除</button>
+    <script>
+        let url = null;
+        
+        fil.onchange = function(){
+            let fileObj=document.getElementById("fil");
+            let selectedFile = document.getElementById('fil').files[0];
+            let src = window.URL.createObjectURL(fileObj.files[0]);
+            let img = document.createElement('img');
+            img.src = src;
+            div.appendChild(img);
+
+            // var reader = new FileReader();//这是核心,读取操作就是由它完成.
+            // console.dir(reader.readAsText);
+            // // reader.readAsText(selectedFile);//读取文件的内容,也可以读取文件的URL
+            // reader.onload = function () {
+            //     //当读取完成后回调这个函数,然后此时文件的内容存储到了result中,直接操作即可
+            //     console.log(this.result);
+            // }
+        }
+    </script>
+</body>
+</html>
