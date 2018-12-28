@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>docuemnt</title>
+    <script type="text/javascript" src="https://www.nowapi.com/style/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: 'get',
+                async: false,
+                url: 'http://api.k780.com/?app=finance.rate&scur=USD&tcur=CNY&appkey=33546&sign=19c642ab2d062747b9d7363ba57cc295&format=json&jsoncallback=data',
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                jsonpCallback: 'data',
+                success: function (data) {
+                    if (data.success != '1') {
+                        alert(data.msgid + ' ' + data.msg);
+                        exit;
+                    }
+                    //遍历
+                    var description = "";
+                    for (var i in data.result) {
+                        var property = data.result[i];
+                        description += i + " = " + property + "\n";
+                    }
+                    //alert(description);
+                    console.log(description);
+                },
+                error: function () {
+                    alert('fail');
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

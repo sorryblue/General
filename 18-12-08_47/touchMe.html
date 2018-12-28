@@ -63,24 +63,6 @@
         let onOff = true;
         if(onOff){
             onOff = false;
-            // timer3 = setInterval(function(){
-            //     chBox.checked = true;
-            //     if(chBox.checked){
-            //         timer = setTimeout(function(){
-            //             fin.style.left = '648px';
-            //             cov.style.left = '837px'
-            //             onOff = true;
-            //             clearTimeout(timer);
-            //         },400);
-            //         timer2 = setTimeout(function(){
-            //             fin.style.left = '721px';
-            //             cov.style.left = '716px'
-            //             chBox.checked = false;
-            //             clearTimeout(timer2);
-            //         },800);
-            //     }
-            // },3000);
-
             
             chBox.onclick = function(){
                 chBox.checked = true;
@@ -96,7 +78,7 @@
                         cov.style.left = '716px'
                         chBox.checked = false;
                         clearTimeout(timer2);
-                    },800);
+                    },600);
                 }
             }
         }
