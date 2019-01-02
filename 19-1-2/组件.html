@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <o-o-o-o d="传进来的数据"></o-o-o-o>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        let obj = {
+            template:`
+            <div>
+                <div>子级</div>
+                <h3>{{val}}</h3>
+                <button @click="fn">按钮</button>
+                <h2>{{d}}</h2>
+            </div>`,
+            props:['d'],
+            data() {
+                return {
+                    val:'这个是子组件'
+                }
+            },
+            methods: {
+                fn(){
+                    alert('1')
+                }
+            }
+        }
+        Vue.component('o-o-o-o',obj);
+        new Vue({
+            el:'#app'
+        });
+    </script>
+</body>
+</html>

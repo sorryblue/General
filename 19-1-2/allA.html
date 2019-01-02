@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input 
+            type="checkbox"
+            v-model="all"
+        />全选
+        <hr>
+        <input
+            type="checkbox"
+            v-for="(val, key) in arr"
+            v-model="val.checked"
+        />{{arr}}
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                arr:[
+                    {
+                        checked:false
+                    },
+                    {
+                        checked:false
+                    },
+                    {
+                        checked:false
+                    }
+                ]
+            },
+            methods: {
+                
+            },
+            computed: {
+                all:{
+                    get(){
+                        return this.arr.every(e=>e.checked);
+                    },
+                    set(newValue){
+                        return this.arr.forEach(e => {
+                            e.checked = newValue;
+                        });
+                    }
+                }
+            }
+        })
+    </script>
+    <!-- <script>
+        let obj = {
+            num:4
+        }
+        let n = 2;
+        Object.defineProperty(obj,'num',{
+            get(){
+                console.log('a');
+                // console.log(this);
+                this.num = 3;
+            },
+            set(newValue){
+                console.log('b');
+            }
+        });
+        console.log(obj.num);
+    </script> -->
+</body>
+</html>
