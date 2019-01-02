@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button
+            @click="allC"
+        >全选</button>
+        <button
+            @click="allF"
+        >反选</button>
+        <button
+            @click="allN"
+        >全不选</button>
+
+        <!-- <input type="checkbox" v-for="(val,key) in arr" v-model="val.c"> -->
+        <input type="checkbox" v-for="(val,key) in arr" v-model="arr[key]">
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                // arr:[{c:false},{c:false},{c:false},{c:false},{c:false}]
+                arr:[false,false,false,false,false]
+            },
+            methods: {
+                allC(){
+                    // this.arr.map(e=>e.c = true)
+                    this.arr = this.arr.map(e=>e = true)
+                },
+                allN(){
+                    // this.arr.map(e=>e.c=false)
+                   this.arr = this.arr.map(e=>e=false)
+                },
+                allF(){
+                    // this.arr.map(e=>e.c = !e.c)
+                    this.arr = this.arr.map(e=>e = !e)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .active{
+           color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input 
+            type="text" 
+            @keyup.ctrl.enter = "up" 
+            v-model="val"
+        />
+        <ul>
+            <li 
+                v-for="(val,key) in arr"
+                :class="{active:val.onOff}"
+                @mouseup="cc(key)"
+            >{{val.val}}</li>
+        </ul>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                arr:[],
+                val:''
+            },
+            methods:{
+                up(){
+                    this.arr.push(
+                        {
+                            val:this.val,
+                            onOff:false
+                        }
+                    );
+                    this.val = '';
+                },
+                cc(key){
+                    this.arr[key].onOff = !this.arr[key].onOff;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

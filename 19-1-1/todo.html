@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="rem">批量删除</button>
+        <input type="text" @keyup.13="add" v-model.trim="val">
+        <ul>
+            <li v-for="(val, key) in arr">
+                <input type="checkbox" v-model="val.checked">{{val.txt}}
+                <button @click="up(key)">上移</button>
+                <button>下移</button>
+            </li>
+        </ul>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                arr:[
+                    {
+                        txt:"1",
+                        checked:false
+                    },
+                    {
+                        txt:"2",
+                        checked:false
+                    },
+                    {
+                        txt:"3",
+                        checked:false
+                    },
+                    {
+                        txt:"4",
+                        checked:false
+                    },
+                    {
+                        txt:"5",
+                        checked:false
+                    }
+                ],
+                val:''
+            },
+            methods: {
+                add(){
+                    this.arr.unshift({
+                        txt:this.val,
+                        checked:false,
+                    });
+                    this.val = '';
+                },
+                rem(){
+                    this.arr = this.arr.filter(e=>!e.checked);
+                },
+                up(key){
+                    this.arr[key]
+                }
+            },
+        })
+    </script>
+</body>
+</html>
