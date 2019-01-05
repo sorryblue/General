@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDoList</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+    <section class="todoapp">
+        <div id="app">
+            <header class="header" >
+                <h1>todos</h1>
+                <input class="new-todo" placeholder="请输入内容" value="" @keyup.13="add">
+            </header>
+            <section class="main">
+                <input class="toggle-all" type="checkbox" checked="" v-model="all">
+                <ul class="todo-list">
+                    <li  v-for="(val,key) in cal" :class="{completed:val.checked}">
+                        <div class="view">
+                            <input class="toggle" type="checkbox" v-model="val.checked" @click="chick(val)">
+                            <label @dblclick="dblc(val.id,$event)">{{val.txt}}</label>
+                            <button class="destroy" @click="remove(val.id)"></button>
+                        </div>
+                        <input class="edit" :value="val.txt">
+                    </li>
+                </ul>
+            </section>
+            <footer class="footer">
+	            <span class="todo-count">
+	            	<strong>{{num}}</strong>
+	            	<span>条未选中</span>
+                </span>
+                <ul class="filters">
+                    <li v-for="(val,key) in btns">
+                        <a 
+                            :href="val.hash"
+                            :class="{selected:cnum==val.hash.substring(1)}"
+                            @click="cmm(val.hash.substring(1))"
+                        >{{val.name}}</a>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    </section>
+<script src="./vue.js" charset="utf-8"></script>
+<script>
+    let arr = [];
+    for(let i = 0;i < localStorage.length;i++){
+        arr.unshift(JSON.parse(localStorage.getItem(localStorage.key(i))));
+    }
+    new Vue({
+        el:'#app',
+        data:{
+            arr:arr,
+            btns:[
+                {
+                    hash:'#/all',
+                    name:'全部',
+                    onon:false
+                },
+                {
+                    hash:'#/unchecked',
+                    name:'未选中',
+                    onon:false
+                },
+                {
+                    hash:'#/checked',
+                    name:'已选中',
+                    onon:false
+                }
+            ],
+            cnum:'/all',
+            filters:[]
+        },
+        methods: {
+            add(ev){
+                let id = +new Date;
+                let txt = ev.target.value;
+                let checked =  false;
+                let onOff = true;
+                this.arr.unshift(
+                    {
+                        id,
+                        txt,
+                        checked
+                    }
+                );
+                ev.target.value = '';
+                let ddat = {
+                    id,
+                    txt,
+                    checked
+                }
+                localStorage.setItem(id,JSON.stringify(ddat));
+                
+            },
+            remove(id){
+                this.arr = this.arr.filter(e=>!(e.id===id));
+                localStorage.removeItem(id);
+            },
+            dblc(id,ev){
+                console.log(id);
+                this.arr.forEach(e=>{
+                    if(e.id === id){
+                        console.log(ev.target);
+                    }
+                })
+            },
+            chick(val){
+                let that = this;
+                setTimeout(function(){
+                    that.arr.forEach(e=>{
+                        if(e.id == val.id){
+                            let id = e.id;
+                            let txt = e.txt;
+                            let checked = e.checked;
+                            let ddated = {
+                                id,
+                                txt,
+                                checked
+                            }
+                            localStorage.setItem(e.id,JSON.stringify(ddated));
+                        }
+                    });
+                },100);
+                console.log(that.arr);
+                console.log(that.arr[0].checked);
+            },
+            cmm(hash){
+                this.cnum = hash;
+            }
+        },
+        computed: {
+            all:{
+                get(){
+                    return this.arr.every(e=>e.checked);
+                },
+                set(newValue){
+                    return this.arr.forEach(e => {
+                        e.checked = newValue;
+                    });
+                }
+            },
+            num(){
+                return this.arr.filter(e=>!e.checked).length;
+            },
+            cal(){
+                return this.arr.filter(e=>{
+                    switch (this.cnum) {
+                        case '/all':
+                            return e;
+                            break;
+                        case '/unchecked':
+                            return !e.checked;
+                            break;
+                        case '/checked':
+                            return e.checked;
+                        break;
+                        default:
+                            return e;
+                            break;
+                    }
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>

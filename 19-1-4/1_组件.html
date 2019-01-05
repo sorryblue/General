@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .active{
+            width: 100px;
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <q-q-q @addarr="addarray"></q-q-q>
+        <o-o-o :data="arr" @changebool="changebbb"></o-o-o>
+        <ul>
+            <li v-for="(val,key) in arr" :class="{active:val.checked}">{{val.txt}}</li>
+        </ul>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        Vue.component('q-q-q',{
+            template:`
+                <div>
+                    <input type="text" @keyup.13="add" />
+                </div>
+            `,
+            methods:{
+                add(ev){
+                    this.$emit('addarr',ev.target.value);
+                    ev.target.value = '';
+                }
+            }
+        })
+        Vue.component('o-o-o',{
+            props: {
+                data:{
+                    type:Array,
+                    default:[]
+                }
+            },
+            template:`
+                <div>
+                    <ul>
+                        <li v-for="(val,key) in data" :class="{active:val.checked}">
+                        <input 
+                            type="checkbox"
+                            @change="changecc(val.id,$event)"
+                        >
+                        <span>{{val.txt}}</span> 
+                        </li>
+                    </ul>
+                </div>
+            `,
+            methods:{
+                changecc(id,ev){
+                    this.$emit('changebool',id,ev.target.checked);
+                }
+            }
+        })
+        new Vue({
+            el:'#app',
+            data:{
+                arr:[
+                    {
+                        id:0,
+                        txt:'嘤',
+                        checked:false
+                    },
+                    {
+                        id:1,
+                        txt:'普',
+                        checked:false
+                    },
+                    {
+                        id:2,
+                        txt:'瑞',
+                        checked:false
+                    },
+                    {
+                        id:3,
+                        txt:'斯',
+                        checked:false
+                    }
+                ]
+            },
+            methods: {
+                changebbb(id,bool){
+                    this.arr.forEach(e => {
+                        if(e.id === id){
+                            e.checked = bool;
+                        }
+                    });
+                },
+                addarray(text){
+                    this.arr.push({
+                        id:+new Date,
+                        txt:text,
+                        checked:false
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+</html>
