@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input 
+            type="text"
+            @keyup="up"
+            @keyup.13="add"
+        />
+        <hr>
+        <ul>
+            <li v-for="(val,key) in fitt">{{fitt}}</li>
+        </ul>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                arr:['hello','world','abcdef','wolsa','killo'],
+                fitt:['hello','world','abcdef','wolsa','killo']
+            },
+            methods: {
+                up(ev){
+                    let val = ev.target.value;
+                    this.fitt = this.arr.filter(e=>e.match(val));
+                },
+                add(){
+                    
+                }
+            }
+        })
+    </script>
+</body>
+</html>

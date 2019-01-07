@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ToDoList</title>
+    <link rel="icon" href="./icon.jpg">
     <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
@@ -25,7 +26,9 @@
                     </li>
                 </ul>
             </section>
-            <footer class="footer">
+            <footer class="footer"
+                v-show="arr.length"
+            >
 	            <span class="todo-count">
 	            	<strong>{{num}}</strong>
 	            	<span>条未选中</span>
@@ -55,24 +58,22 @@
             btns:[
                 {
                     hash:'#/all',
-                    name:'全部',
-                    onon:false
+                    name:'全部'
                 },
                 {
                     hash:'#/unchecked',
-                    name:'未选中',
-                    onon:false
+                    name:'未选中'
                 },
                 {
                     hash:'#/checked',
-                    name:'已选中',
-                    onon:false
+                    name:'已选中'
                 }
             ],
             cnum:'/all',
             filters:[]
         },
         methods: {
+            //添加list项
             add(ev){
                 let id = +new Date;
                 let txt = ev.target.value;
@@ -94,10 +95,12 @@
                 localStorage.setItem(id,JSON.stringify(ddat));
                 
             },
+            //删除一项
             remove(id){
                 this.arr = this.arr.filter(e=>!(e.id===id));
                 localStorage.removeItem(id);
             },
+            //双击改变内容
             dblc(id,ev){
                 console.log(id);
                 this.arr.forEach(e=>{
@@ -106,6 +109,7 @@
                     }
                 })
             },
+            //完成勾选
             chick(val){
                 let that = this;
                 setTimeout(function(){
@@ -126,6 +130,7 @@
                 console.log(that.arr);
                 console.log(that.arr[0].checked);
             },
+            //改变hash
             cmm(hash){
                 this.cnum = hash;
             }
@@ -141,9 +146,11 @@
                     });
                 }
             },
+            //监控未选中的个数
             num(){
                 return this.arr.filter(e=>!e.checked).length;
             },
+            //hash改变时
             cal(){
                 return this.arr.filter(e=>{
                     switch (this.cnum) {
@@ -161,6 +168,14 @@
                             break;
                     }
                 });
+            }
+        },
+        created () {
+            let hash = window.location.hash;
+            if(!hash){
+                window.location.hash = '#/all';
+            }else{
+                this.cmm(hash.split('#')[1]);
             }
         }
     })
